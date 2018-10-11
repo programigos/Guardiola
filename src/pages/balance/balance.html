@@ -9,5 +9,22 @@
 
 
 <ion-content padding>
-
+  <div>
+    <ion-list class="accordion-list">
+        <!-- First Level -->
+        <ion-list-header class="list-head" *ngFor="let item of information; let i = index" no-lines no-padding>
+          <!-- Toggle Button -->
+          <button class="text-1" ion-item (click)="toggleSection(i)" detail-none [ngClass]="{'section-active': item.open, 'section': !item.open}" outline>
+            {{ item.name }}
+            <ion-icon item-right name="arrow-dropright" *ngIf="!item.open"></ion-icon>
+            <ion-icon item-right name="arrow-dropdown" *ngIf="item.open"></ion-icon>
+          </button>
+          <div *ngIf="item.open" no-lines>
+            <!-- Second Level -->
+              <!-- Toggle Button -->
+              Aquí se mostrará eso pe.
+          </div>
+        </ion-list-header>
+      </ion-list>
+  </div>
 </ion-content>
