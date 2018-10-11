@@ -11,22 +11,23 @@
     <ion-grid style="height: 100%">
         <ion-row justify-content-center align-items-center style="height: 100%">
           <div>
-              <div style="text-align:center" class="guardiola-text">
+              <div style="text-align:center" class="guardiola-title">
                   <b> Guardiola </b>
               </div>
-              
-              <ion-item>
-                <ion-input placeholder="Email"></ion-input>
-              </ion-item>
-              <ion-item>
-                <ion-input placeholder="Password" type="password" ></ion-input>
-              </ion-item>
-                
-                <div align="center">
-                  <button ion-button (click)="doLogin()">Iniciar</button>
-                  <button ion-button (click)="goRegister()">Registrarse</button>
-                </div>
-              
+              <div>
+                <form [formGroup]="loginForm" (ngSubmit) = "doLogin()">
+                  <ion-item>
+                    <ion-input [formControl]="loginForm.controls['email']"  type="text" placeholder="Correo electrónico"></ion-input>
+                  </ion-item>
+                  <ion-item>
+                    <ion-input [formControl]="loginForm.controls['password']" type="password" placeholder="Contraseña"></ion-input>
+                  </ion-item> 
+                  <div align="center">
+                    <button ion-button type="submit" [disabled] = "!loginForm.valid">Iniciar</button>
+                    <button ion-button type="button" (click)="goRegister()">Registrarse</button>
+                  </div>
+                </form>
+              </div>
           </div>
         </ion-row>
       </ion-grid>
