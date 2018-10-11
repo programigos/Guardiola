@@ -17,6 +17,7 @@ import { SavingPage } from '../pages/saving/saving';
 
 import { SQLite } from '@ionic-native/sqlite';
 import { AuthProvider } from '../providers/auth/auth';
+import { DatabaseProvider } from '../providers/database/database';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { AuthProvider } from '../providers/auth/auth';
     SplashScreen,
     SQLite,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    AuthProvider
+    AuthProvider,
+    DatabaseProvider
   ]
 })
 export class AppModule {}

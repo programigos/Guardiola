@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
+import { AuthProvider } from '../../providers/auth/auth'
 /**
  * Generated class for the RegisterPage page.
  *
@@ -18,7 +19,7 @@ export class RegisterPage {
 
   registerForm : FormGroup;
 
-  constructor(private formBuilder: FormBuilder,public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private formBuilder: FormBuilder,public navCtrl: NavController, public navParams: NavParams, private auth: AuthProvider) {
     this.registerForm=this.createRegisterForm();
   }
 
@@ -59,8 +60,8 @@ export class RegisterPage {
       phone_number: this.registerForm.value.phone,
       password: this.registerForm.value.password
     };
-    console.log(data);
-     this.navCtrl.pop();
+    this.auth.registerUser(data.name, data.email, data.date, data.phone_number, data.password);
+    this.navCtrl.pop();
   }
 
 }

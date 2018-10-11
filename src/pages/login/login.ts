@@ -20,12 +20,9 @@ import { AuthProvider } from '../../providers/auth/auth';
 })
 export class LoginPage {
 
-<<<<<<< HEAD
-  constructor(public navCtrl: NavController, public navParams: NavParams, private auth: AuthProvider) {
-=======
   loginForm: FormGroup;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, auth: AuthProvider) {
     this.loginForm = this.createLoginForm();
   }
 
@@ -34,7 +31,6 @@ export class LoginPage {
       email: ['',Validators.compose([Validators.email,Validators.required,Validators.min(6),Validators.max(16)])],
       password: ['',Validators.compose([Validators.required,Validators.min(6),Validators.max(16)])]
     });
->>>>>>> 20ce5b80626d62362e38825699ed966ac5ca53fc
   }
 
   ionViewDidLoad() {
