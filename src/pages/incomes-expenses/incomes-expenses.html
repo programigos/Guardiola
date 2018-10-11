@@ -1,13 +1,58 @@
-<!--
-  Generated template for the IncomesExpensesPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 </ion-header>
 
-
 <ion-content padding>
-
+  <div align="center" padding>
+    <ion-row center>
+      <ion-col class="type-on">
+        <div class="type-on-text">Ingreso</div>
+      </ion-col>
+      <ion-col class="type-off">
+        <div class="type-off-text">Egreso</div>
+      </ion-col>
+    </ion-row>
+  </div>
+  <div padding>
+    <form [formGroup]="incomeForm" (ngSubmit)="addIncome()">
+      <ion-item>
+        <ion-label>Concepto</ion-label>
+        <ion-select [formControl]="incomeForm.controls['concept']" interface="action-sheet" placeholder="Comida" stacked>
+          <ion-option value="Comida">Comida</ion-option>
+          <ion-option value="Servicios y hogar">Servicios y hogar</ion-option>
+          <ion-option value="Entretenimiento">Entretenimiento</ion-option>
+          <ion-option value="Transporte" selectedText="Transporte">Transporte</ion-option>
+          <ion-option value="Salud">Salud</ion-option>
+          <ion-option value="Educación">Educación</ion-option>
+          <ion-option value="Generales">Generales</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label>Monto</ion-label>
+        <ion-input [formControl]="incomeForm.controls['amount']" type="number"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input [formControl]="incomeForm.controls['description']" type="text" placeholder="Descripción"></ion-input>
+      </ion-item>
+      <ion-item> 
+        <ion-label>Fecha</ion-label>
+        <ion-datetime [formControl]="incomeForm.controls['date']" displayFormat="DD/MM/YYYY" placeholder="01/01/2001"></ion-datetime>
+      </ion-item>
+      <ion-list [formControl]="incomeForm.controls['personal']" radio-group>
+        <ion-item>
+          <ion-label>Personal</ion-label>
+          <ion-radio value="0" checked></ion-radio>
+        </ion-item>
+        <ion-item>
+          <ion-label>Grupo</ion-label>
+          <ion-radio value="1"></ion-radio>
+        </ion-item>
+      </ion-list>
+      <div align="center">
+        <button ion-button type="submit">Guardar</button>
+      </div>
+      <div align="center">
+          <button ion-button type="submit">Recordar y guardar</button>
+        </div>
+    </form>
+  </div>
 </ion-content>
