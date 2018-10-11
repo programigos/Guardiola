@@ -60,8 +60,14 @@ export class RegisterPage {
       phone_number: this.registerForm.value.phone,
       password: this.registerForm.value.password
     };
-    this.auth.registerUser(data.name, data.email, data.date, data.phone_number, data.password);
-    this.navCtrl.pop();
+    this.auth.registerUser(data.name, data.email, data.date, data.phone_number, data.password).then((result)=>{
+      console.log(result);
+      this.navCtrl.pop();
+    },(err)=>{
+      console.log(err);
+    }).catch((error)=>{
+      console.log(error);
+    });
   }
 
 }

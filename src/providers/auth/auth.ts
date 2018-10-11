@@ -17,12 +17,22 @@ export class AuthProvider {
   }
 
   registerUser(nombre:string, email: string, fecha:string, telefono:number, password:string){
-    this.database.registerUser(nombre, email, fecha, telefono, password).then((data)=>{
-      console.log(data);
-    },(err)=>{
-      console.log(err);
-    }).catch((error)=>{
-      console.log(error);
+    return new Promise((resolve, reject)=>{
+      this.database.registerUser(nombre, email, fecha, telefono, password).then(res=>{
+        resolve(res);
+      }).catch(error=>{
+        reject(error);
+      })
+    })
+  }
+
+  validateUser(email:string, password:string){
+    return new Promise((resolve, reject)=>{
+      this.database.validateUser(email,password).then(res=>{
+        resolve(res);
+      }).catch(error=>{
+        reject(error);
+      })
     })
   }
 

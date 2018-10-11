@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
-import { Content } from 'ionic-angular';
 
 /*
   Generated class for the AuthProvider provider.
@@ -44,8 +43,21 @@ export class DatabaseProvider {
 
   registerUser(nombre:string, email:string, fecha_nacimiento:string, telefono: number, password:string){
     return new Promise ((resolve, reject) =>{
-      let sql = "INSERT INTO usuarios (nombre, email, fecha_nacimiento, telefono, password) VALUES (?,?,?,?)";
-      this.db.executeSql(sql,[nombre,email,fecha_nacimiento,password]).then((data)=>{
+      let sql = "INSERT INTO usuarios (nombre, email, fecha_nacimiento, telefono, password) VALUES (?,?,?,?,?)";
+      this.db.executeSql(sql,[nombre, email, fecha_nacimiento, telefono, password]).then((data)=>{
+        console.log("Usuario creado");
+        resolve(data);
+      },(err)=>{
+        reject(err);
+      })
+    })
+  }
+
+  validateUser(email:string, password:string){
+    return new Promise((resolve, reject) =>{
+      let sql = "SELECT * FROM usuarios WHERE email = ? and password = ?";
+      this.db.executeSql(sql,[email, password]).then((data)=>{
+        console.log("Ingresando...")
         resolve(data);
       },(err)=>{
         reject(err);
