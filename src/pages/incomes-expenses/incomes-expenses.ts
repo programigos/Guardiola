@@ -40,7 +40,8 @@ export class IncomesExpensesPage {
       description:this.incomeForm.value.description,
       date:this.incomeForm.value.date,
       amount:this.incomeForm.value.amount,
-      personal:this.incomeForm.value.personal
+      personal:this.incomeForm.value.personal,
+      type:this.type
     }
     console.log(data);
   }
