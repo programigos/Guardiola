@@ -50,10 +50,10 @@ export class IncomesExpensesPage {
       personal:this.incomeForm.value.personal,
       type:this.type
     }
-    if(this.type)
-      data.concept="Ingreso";
-    console.log(user_data);
     console.log(data);
+    if(this.type){
+      data.concept= 8;
+    }
     this.saves.addExpenseIncome(user_data.id, null, data.concept, data.description, data.amount, data.date, data.type).then((result) =>{
       console.log(result);
     },(err)=>{
