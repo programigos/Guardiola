@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { FormBuilder, FormGroup, Validators, EmailValidator } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { HomePage } from '../home/home';
 import { RegisterPage } from '../register/register';
 
 import { AuthProvider } from '../../providers/auth/auth';
+
 /**
  * Generated class for the LoginPage page.
  *
@@ -52,6 +53,7 @@ export class LoginPage {
       }
       else{
         console.log("Soy Valido");
+        localStorage.setItem('logeado','true');
         this.navCtrl.setRoot(HomePage);
         this.navCtrl.popToRoot();
       }
