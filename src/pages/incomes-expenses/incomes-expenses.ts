@@ -41,7 +41,8 @@ export class IncomesExpensesPage {
   }
 
   addIncome(){
-    let user_data = JSON.parse(JSON.stringify(localStorage.getItem('usuario_data')));
+    let user_data = JSON.parse(localStorage.getItem('usuario_data'));
+    console.log(user_data);
     let data={
       user_id:user_data.id,
       concept:this.incomeForm.value.concept,

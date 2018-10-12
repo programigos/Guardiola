@@ -47,6 +47,8 @@ export class LoginPage {
     console.log(data.email);
     this.auth.validateUser(data.email, data.password).then((result)=>{
       let res = JSON.parse(JSON.stringify(result));
+      console.log(res);
+      console.log(res[0])
       let largo = res.length;
       if(largo == 0){
         console.log("Datos Equivocados");
@@ -54,7 +56,7 @@ export class LoginPage {
       else{
         console.log("Soy Valido");
         localStorage.setItem('logeado','true');
-        localStorage.setItem('usuario_data',res[0]);
+        localStorage.setItem('usuario_data', JSON.stringify(res[0]));
         this.navCtrl.setRoot(HomePage);
         this.navCtrl.popToRoot();
       }
