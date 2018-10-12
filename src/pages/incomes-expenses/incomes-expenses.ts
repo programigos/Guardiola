@@ -34,6 +34,10 @@ export class IncomesExpensesPage {
     });
   }
 
+  setType(val){
+    this.type=val;
+  }
+
   addIncome(){
     let data={
       concept:this.incomeForm.value.concept,
@@ -43,6 +47,8 @@ export class IncomesExpensesPage {
       personal:this.incomeForm.value.personal,
       type:this.type
     }
+    if(this.type)
+      data.concept="Ingreso";
     console.log(data);
   }
 
