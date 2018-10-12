@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
+import { SavesProvider } from '../../providers/saves/saves'
+
 /**
  * Generated class for the BalancePage page.
  *
@@ -17,8 +19,9 @@ export class BalancePage {
 
   information:any[];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private saves: SavesProvider) {
     this.information=[];
+    let user_data = JSON.parse(JSON.stringify(localStorage.getItem('usuario_data')));
     let week={
       name:"día"
     };
@@ -31,6 +34,7 @@ export class BalancePage {
       name:"año"
     };
     this.information.push(year);
+    this.saves.getUserSave(user_data.id);
   }
 
   toggleSection(idx) {

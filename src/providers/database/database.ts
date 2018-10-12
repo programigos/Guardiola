@@ -87,6 +87,31 @@ export class DatabaseProvider {
       })
     })
   }
+  getUserSave(id){
+    return new Promise((resolve, reject) =>{
+      let sql = "SELECT * FROM gastos_ingresos WHERE usuario_id = ?";
+      this.db.executeSql(sql,[id]).then((data)=>{
+        let saves=[];
+        for(var i = 0; i < data.rows.length; ++i){
+          saves.push({
+            id: data.rows.item(i).id_concepto,
+            user: data.rows.item(i).usuario_id,
+            group: data.rows.item(i).grupo_id,
+            category: data.rows.item(i).categoria,
+            description: data.rows.item(i).descripcion,
+            amount:data.rows.item(i).monto,
+            date:data.rows.item(i).fecha,
+            type:data.rows.item(i).gasto_ingreso
+          })
+        }
+        console.log("Expenses and Incomes");
+        console.log(saves);
+        resolve(saves);
+      },(err)=>{
+        reject(err);
+      })
+    })
+  }
 
   
 }

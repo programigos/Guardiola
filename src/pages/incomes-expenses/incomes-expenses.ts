@@ -43,6 +43,7 @@ export class IncomesExpensesPage {
   addIncome(){
     let user_data = JSON.parse(JSON.stringify(localStorage.getItem('usuario_data')));
     let data={
+      user_id:user_data.id,
       concept:this.incomeForm.value.concept,
       description:this.incomeForm.value.description,
       date:this.incomeForm.value.date,
@@ -54,7 +55,7 @@ export class IncomesExpensesPage {
     if(this.type){
       data.concept= 8;
     }
-    this.saves.addExpenseIncome(user_data.id, null, data.concept, data.description, data.amount, data.date, data.type).then((result) =>{
+    this.saves.addExpenseIncome(data.user_id, null, data.concept, data.description, data.amount, data.date, data.type).then((result) =>{
       console.log(result);
     },(err)=>{
       console.log(err);

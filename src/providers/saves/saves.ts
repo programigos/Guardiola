@@ -25,4 +25,13 @@ export class SavesProvider {
       })
     })
   }
+  getUserSave(id){
+    return new Promise((resolve, reject)=>{
+      this.database.getUserSave(id).then(res=>{
+        resolve(res);
+      }).catch(error => {
+        reject(error);
+      })
+    })
+  }
 }
