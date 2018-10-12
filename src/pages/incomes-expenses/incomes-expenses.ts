@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
+import { SavesProvider } from '../../providers/saves/saves'
+
 /**
  * Generated class for the IncomesExpensesPage page.
  *
@@ -19,7 +21,7 @@ export class IncomesExpensesPage {
   type:boolean;
   incomeForm:FormGroup;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,private formBuilder: FormBuilder) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,private formBuilder: FormBuilder, private saves: SavesProvider) {
     this.type=true;
     this.incomeForm=this.createIncomeForm();
   }
@@ -39,6 +41,7 @@ export class IncomesExpensesPage {
   }
 
   addIncome(){
+    let user_data = JSON.parse(JSON.stringify(localStorage.getItem('usuario_data')));
     let data={
       concept:this.incomeForm.value.concept,
       description:this.incomeForm.value.description,
@@ -49,6 +52,15 @@ export class IncomesExpensesPage {
     }
     if(this.type)
       data.concept="Ingreso";
+    console.log(user_data);
+    console.log(data);
+    this.saves.addExpenseIncome(user_data.id, null, data.concept, data.description, data.amount, data.date, data.type).then((result) =>{
+      console.log(result);
+    },(err)=>{
+      console.log(err);
+    }).catch((error)=>{
+      console.log(error);
+    })
     console.log(data);
   }
 

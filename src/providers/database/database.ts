@@ -58,6 +58,29 @@ export class DatabaseProvider {
       let sql = "SELECT * FROM usuarios WHERE email = ? and password = ?";
       this.db.executeSql(sql,[email, password]).then((data)=>{
         console.log("Ingresando...")
+        let arrayUsers = [];
+        for(var i = 0; i < data.rows.length; ++i){
+          arrayUsers.push({
+            id: data.rows.item(i).id_usuario,
+            nombre: data.rows.item(i).nombre,
+            email: data.rows.item(i).email,
+            fecha: data.rows.item(i).fecha_nacimiento,
+            telefono: data.rows.item(i).telefono
+          })
+        }
+        resolve(arrayUsers);
+      },(err)=>{
+        reject(err);
+      })
+    })
+  }
+
+  addExpenseIncome(usuario_id: number, grupo_id: number, categoria: number, descripcion: string, monto: number, fecha: string, gasto_ingreso:boolean){
+    return new Promise((resolve, reject) =>{
+      let sql = "INSERT INTO gastos_ingresos (usuario_id, grupo_id, categoria, descripcion, monto, fecha, gasto_ingreso) VALUES (?,?,?,?,?,?,?)";
+      this.db.executeSql(sql,[usuario_id, grupo_id, categoria, descripcion, monto, fecha, gasto_ingreso]).then((data)=>{
+        console.log("Expense_Income Added");
+        console.log(data);
         resolve(data);
       },(err)=>{
         reject(err);
@@ -66,5 +89,4 @@ export class DatabaseProvider {
   }
 
   
-
 }

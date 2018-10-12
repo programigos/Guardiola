@@ -6,6 +6,7 @@ import { HomePage } from '../home/home';
 import { RegisterPage } from '../register/register';
 
 import { AuthProvider } from '../../providers/auth/auth';
+import { jsonpCallbackContext } from '@angular/common/http/src/module';
 
 /**
  * Generated class for the LoginPage page.
@@ -45,15 +46,15 @@ export class LoginPage {
     }
     console.log(data.email);
     this.auth.validateUser(data.email, data.password).then((result)=>{
-      console.log(result);
       let res = JSON.parse(JSON.stringify(result));
-      let largo = res.rows.length;
+      let largo = res.length;
       if(largo == 0){
         console.log("Datos Equivocados");
       }
       else{
         console.log("Soy Valido");
         localStorage.setItem('logeado','true');
+        localStorage.setItem('usuario_data',res[0]);
         this.navCtrl.setRoot(HomePage);
         this.navCtrl.popToRoot();
       }

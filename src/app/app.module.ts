@@ -18,6 +18,7 @@ import { SavingPage } from '../pages/saving/saving';
 import { SQLite } from '@ionic-native/sqlite';
 import { AuthProvider } from '../providers/auth/auth';
 import { DatabaseProvider } from '../providers/database/database';
+import { SavesProvider } from '../providers/saves/saves';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { DatabaseProvider } from '../providers/database/database';
     SQLite,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthProvider,
-    DatabaseProvider
+    DatabaseProvider,
+    SavesProvider
   ]
 })
 export class AppModule {}

@@ -5,7 +5,7 @@
     <div padding>
       <ion-segment [(ngModel)]="pet">
         <ion-segment-button value="expend" (click)="setType(false)">
-          Egreso
+          Gasto
         </ion-segment-button>
         <ion-segment-button value="income" (click)="setType(true)">
           Ingreso
@@ -60,13 +60,13 @@
         <ion-item>
           <ion-label>Concepto</ion-label>
           <ion-select [formControl]="incomeForm.controls['concept']" interface="action-sheet" placeholder="Comida" stacked>
-            <ion-option value="Comida">Comida</ion-option>
-            <ion-option value="Servicios y hogar">Servicios y hogar</ion-option>
-            <ion-option value="Entretenimiento">Entretenimiento</ion-option>
-            <ion-option value="Transporte" selectedText="Transporte">Transporte</ion-option>
-            <ion-option value="Salud">Salud</ion-option>
-            <ion-option value="Educación">Educación</ion-option>
-            <ion-option value="Generales">Generales</ion-option>
+            <ion-option value=1>Comida</ion-option>
+            <ion-option value=2>Servicios y hogar</ion-option>
+            <ion-option value=3>Entretenimiento</ion-option>
+            <ion-option value=4 selectedText="Transporte">Transporte</ion-option>
+            <ion-option value=5>Salud</ion-option>
+            <ion-option value=6>Educación</ion-option>
+            <ion-option value=7>Generales</ion-option>
           </ion-select>
         </ion-item>
         <ion-item>
