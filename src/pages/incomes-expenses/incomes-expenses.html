@@ -70,12 +70,12 @@
           </ion-select>
         </ion-item>
         <ion-item>
-          <ion-label>Monto</ion-label>
-          <ion-input [formControl]="incomeForm.controls['amount']" type="number"></ion-input>
-        </ion-item>
-        <ion-item>
           <ion-input [formControl]="incomeForm.controls['description']" type="text" placeholder="Descripción"></ion-input>
         </ion-item>
+        <ion-item>
+            <ion-label>Monto</ion-label>
+            <ion-input [formControl]="incomeForm.controls['amount']" type="number"></ion-input>
+          </ion-item>
         <ion-item> 
           <ion-label>Fecha</ion-label>
           <ion-datetime [formControl]="incomeForm.controls['date']" displayFormat="DD/MM/YYYY" placeholder="01/01/2001"></ion-datetime>
