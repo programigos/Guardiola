@@ -149,13 +149,14 @@ export class DatabaseProvider {
   }
   getUserDayCategory(user_id,date:string,category_id){
     return new Promise((resolve, reject) =>{
-      let sql = "SELECT descripcion,monto FROM gastos_ingresos WHERE usuario_id=? AND fecha=? AND categoria=? ORDER BY id_concepto";
+      let sql = "SELECT descripcion,monto, fecha FROM gastos_ingresos WHERE usuario_id=? AND fecha=? AND categoria=? ORDER BY id_concepto";
       this.db.executeSql(sql,[user_id,date,category_id]).then((data)=>{
         let saves=[];
         for(var i = 0; i < data.rows.length; ++i){
           saves.push({
             description: data.rows.item(i).descripcion,
-            amount:data.rows.item(i).monto
+            amount:data.rows.item(i).monto,
+            date:data.rows.item(i).fecha
           })
         }
         resolve(saves);
@@ -220,13 +221,14 @@ export class DatabaseProvider {
         top="2019-01-01";
       }
     return new Promise((resolve, reject) =>{
-      let sql = "SELECT descripcion,monto FROM gastos_ingresos WHERE usuario_id=? AND fecha>= ? AND fecha< ? AND categoria=? ORDER BY id_concepto";
+      let sql = "SELECT descripcion,monto, fecha FROM gastos_ingresos WHERE usuario_id=? AND fecha>= ? AND fecha< ? AND categoria=? ORDER BY id_concepto";
       this.db.executeSql(sql,[user_id,base,top,category_id]).then((data)=>{
         let saves=[];
         for(var i = 0; i < data.rows.length; ++i){
           saves.push({
             description: data.rows.item(i).descripcion,
-            amount:data.rows.item(i).monto
+            amount:data.rows.item(i).monto,
+            date:data.rows.item(i).fecha
           })
         }
         console.log("Expenses and Incomes");
@@ -265,13 +267,14 @@ export class DatabaseProvider {
     let base=year+"-01-01";
       let top=(Number(year)+1)+"-01-01";
     return new Promise((resolve, reject) =>{
-      let sql = "SELECT descripcion,monto FROM gastos_ingresos WHERE usuario_id=? AND fecha>= ? AND fecha< ? AND categoria=? ORDER BY id_concepto";
+      let sql = "SELECT descripcion,monto, fecha FROM gastos_ingresos WHERE usuario_id=? AND fecha>= ? AND fecha< ? AND categoria=? ORDER BY id_concepto";
       this.db.executeSql(sql,[user_id,base,top,category_id]).then((data)=>{
         let saves=[];
         for(var i = 0; i < data.rows.length; ++i){
           saves.push({
             description: data.rows.item(i).descripcion,
-            amount:data.rows.item(i).monto
+            amount:data.rows.item(i).monto,
+            date:data.rows.item(i).fecha
           })
         }
         console.log("Expenses and Incomes");
