@@ -20,9 +20,48 @@
             <ion-icon item-right name="arrow-dropdown" *ngIf="item.open"></ion-icon>
           </button>
           <div *ngIf="item.open" no-lines>
-            <!-- Second Level -->
-              <!-- Toggle Button -->
-              Aquí se mostrará eso pe.
+            <div *ngIf="i==0">
+              <form [formGroup]="dayForm"> 
+                <ion-item>
+                  <ion-label>Fecha</ion-label>
+                  <ion-datetime [formControl]="dayForm.controls['date']" displayFormat="DD/MM/YYYY" placeholder="Fecha" (ngModelChange)="changeDay($event)"></ion-datetime>
+                </ion-item>
+              </form>
+            </div>
+            <div *ngIf="i==1">
+              <form [formGroup]="monthForm">
+                <ion-item>
+                  <ion-label>Mes</ion-label>
+                  <ion-select [formControl]="monthForm.controls['month']" interface="action-sheet" placeholder="Comida" (ngModelChange)="changeMonth($event)" stacked>
+                    <ion-option value=1>Enero</ion-option>
+                    <ion-option value=2>Febrero</ion-option>
+                    <ion-option value=3>Marzo</ion-option>
+                    <ion-option value=4>Abril</ion-option>
+                    <ion-option value=5>Mayo</ion-option>
+                    <ion-option value=6>Junio</ion-option>
+                    <ion-option value=7>Julio</ion-option>
+                    <ion-option value=8>Agosto</ion-option>
+                    <ion-option value=9>Setiembre</ion-option>
+                    <ion-option value=10>Octubre</ion-option>
+                    <ion-option value=11>Noviembre</ion-option>
+                    <ion-option value=12>Diciembre</ion-option>
+                  </ion-select>
+                </ion-item>
+              </form>
+            </div>
+            <div *ngIf="i==2">
+              <ion-item>
+                <ion-label>Fecha</ion-label>
+                <ion-datetime [formControl]="yearForm.controls['year']" displayFormat="YYYY" placeholder="Año" (ngModelChange)="changeYear($event)"></ion-datetime>
+              </ion-item>
+            </div>
+            <ion-list no-lines>
+              <button ion-item *ngFor="let categoria of item.categorias" >
+                {{ categoria.category }}
+                S/.{{ categoria.amount}}
+                <ion-icon name="add-circle"></ion-icon>
+              </button>  
+            </ion-list>
           </div>
         </ion-list-header>
       </ion-list>

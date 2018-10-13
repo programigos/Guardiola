@@ -106,7 +106,6 @@ export class DatabaseProvider {
             user: data.rows.item(i).usuario_id,
             group: data.rows.item(i).grupo_id,
             category: data.rows.item(i).nombre,
-            category_id:data.rows.item(i).categoria,
             description: data.rows.item(i).descripcion,
             amount:data.rows.item(i).monto,
             date:data.rows.item(i).fecha,
@@ -121,22 +120,16 @@ export class DatabaseProvider {
       })
     })
   }
-  getUserCategory(id,category){
+  getUserDay(id,date:string){
     return new Promise((resolve, reject) =>{
-      let sql = "SELECT * FROM gastos_ingresos INNER JOIN categorias on categoria=id_categoria WHERE usuario_id = ? ORDER BY categoria";
-      this.db.executeSql(sql,[id]).then((data)=>{
+      let sql = "SELECT SUM(monto) Suma, id_categoria, nombre FROM gastos_ingresos INNER JOIN categorias ON categoria=id_categoria WHERE usuario_id= ? AND fecha= ? GROUP BY id_categoria, nombre ORDER BY id_categoria";
+      this.db.executeSql(sql,[id,date]).then((data)=>{
         let saves=[];
         for(var i = 0; i < data.rows.length; ++i){
           saves.push({
-            id: data.rows.item(i).id_concepto,
-            user: data.rows.item(i).usuario_id,
-            group: data.rows.item(i).grupo_id,
+            id: data.rows.item(i).id_categoria,
             category: data.rows.item(i).nombre,
-            category_id:data.rows.item(i).categoria,
-            description: data.rows.item(i).descripcion,
-            amount:data.rows.item(i).monto,
-            date:data.rows.item(i).fecha,
-            type:data.rows.item(i).gasto_ingreso
+            amount:data.rows.item(i).Suma
           })
         }
         console.log("Expenses and Incomes");

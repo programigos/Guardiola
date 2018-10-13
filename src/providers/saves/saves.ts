@@ -34,4 +34,13 @@ export class SavesProvider {
       })
     })
   }
+  getUserDay(id,date:string){
+    return new Promise((resolve, reject)=>{
+      this.database.getUserDay(id,date).then(res=>{
+        resolve(res);
+      }).catch(error => {
+        reject(error);
+      })
+    })
+  }
 }
