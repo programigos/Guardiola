@@ -34,7 +34,6 @@ export class SavesProvider {
       })
     })
   }
-<<<<<<< HEAD
   getUserDay(id,date:string){
     return new Promise((resolve, reject)=>{
       this.database.getUserDay(id,date).then(res=>{
@@ -44,8 +43,4 @@ export class SavesProvider {
       })
     })
   }
-=======
-
-  
->>>>>>> c07dece8a42e9273c338ae3f845b1591198476ec
 }
