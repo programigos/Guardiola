@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { SavesProvider } from '../../providers/saves/saves'
@@ -23,12 +23,11 @@ export class BalancePage {
   monthForm:FormGroup;
   yearForm:FormGroup;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private saves: SavesProvider, private formBuilder: FormBuilder) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private saves: SavesProvider, private formBuilder: FormBuilder,private alertCtrl: AlertController) {
     this.dayForm=this.createDayForm();
     this.monthForm=this.createMonthForm();
     this.yearForm=this.createYearForm();
     this.information=[];
-    let user_data = JSON.parse(localStorage.getItem('usuario_data'));
     let day={
       name:"DIA",
       categorias:[]
@@ -44,15 +43,27 @@ export class BalancePage {
       categorias:[]
     };
     this.information.push(year);
-    this.saves.getUserSave(user_data.id).then((result)=>{
-      let balance = JSON.parse(JSON.stringify(result));
-      console.log("Balance:");
-      console.log(balance);
-    },(err)=>{
-      console.log(err);
-    }).catch((error)=>{
-      console.log(error);
-    });
+  }
+  ionViewWillEnter(){
+    this.dayForm=this.createDayForm();
+    this.monthForm=this.createMonthForm();
+    this.yearForm=this.createYearForm();
+    this.information=[];
+    let day={
+      name:"DIA",
+      categorias:[]
+    };
+    this.information.push(day);
+    let month={
+      name:"MES",
+      categorias:[]
+    };
+    this.information.push(month);
+    let year={
+      name:"AÑO",
+      categorias:[]
+    };
+    this.information.push(year);
   }
 
   private createDayForm(){
@@ -74,12 +85,25 @@ export class BalancePage {
   }
 
   changeDay($event){
-    console.log("Funciona");
     console.log($event);
     let user_data = JSON.parse(localStorage.getItem('usuario_data'));
     this.saves.getUserDay(user_data.id,$event).then((result)=>{
       let balance = JSON.parse(JSON.stringify(result));
       this.information[0].categorias=balance;
+      for(var i=0;i<this.information[0].categorias.length;++i){
+        let categoria=this.information[0].categorias[i];
+        this.saves.getUserDayCategory(user_data.id,$event,categoria.id).then((result)=>{
+          let incomes = JSON.parse(JSON.stringify(result));
+          categoria.incomes=incomes;
+          console.log("Ingresos:");
+          console.log(incomes);
+          console.log(categoria.incomes);
+        },(err)=>{
+          console.log(err);
+        }).catch((error)=>{
+          console.log(error);
+        });
+      }
       console.log("Balance:");
       console.log(this.information);
     },(err)=>{
@@ -91,10 +115,60 @@ export class BalancePage {
 
   changeMonth($event){
     console.log($event);
+    let user_data = JSON.parse(localStorage.getItem('usuario_data'));
+    this.saves.getUserMonth(user_data.id,$event).then((result)=>{
+      let balance = JSON.parse(JSON.stringify(result));
+      this.information[1].categorias=balance;
+      for(var i=0;i<this.information[1].categorias.length;++i){
+        let categoria=this.information[1].categorias[i];
+        this.saves.getUserMonthCategory(user_data.id,$event,categoria.id).then((result)=>{
+          let incomes = JSON.parse(JSON.stringify(result));
+          categoria.incomes=incomes;
+          console.log("Ingresos:");
+          console.log(incomes);
+          console.log(categoria.incomes);
+        },(err)=>{
+          console.log(err);
+        }).catch((error)=>{
+          console.log(error);
+        });
+      }
+      console.log("Balance:");
+      console.log(this.information);
+    },(err)=>{
+      console.log(err);
+    }).catch((error)=>{
+      console.log(error);
+    });
   }
 
   changeYear($event){
     console.log($event);
+    let user_data = JSON.parse(localStorage.getItem('usuario_data'));
+    this.saves.getUserYear(user_data.id,$event).then((result)=>{
+      let balance = JSON.parse(JSON.stringify(result));
+      this.information[2].categorias=balance;
+      for(var i=0;i<this.information[2].categorias.length;++i){
+        let categoria=this.information[2].categorias[i];
+        this.saves.getUserYearCategory(user_data.id,$event,categoria.id).then((result)=>{
+          let incomes = JSON.parse(JSON.stringify(result));
+          categoria.incomes=incomes;
+          console.log("Ingresos:");
+          console.log(incomes);
+          console.log(categoria.incomes);
+        },(err)=>{
+          console.log(err);
+        }).catch((error)=>{
+          console.log(error);
+        });
+      }
+      console.log("Balance:");
+      console.log(this.information);
+    },(err)=>{
+      console.log(err);
+    }).catch((error)=>{
+      console.log(error);
+    });
   }
 
   toggleSection(idx) {
@@ -104,6 +178,10 @@ export class BalancePage {
       else
         this.information[i].open = false;
     }
+  }
+
+  toggleItem(i, j) {
+    this.information[i].categorias[j].open = !this.information[i].categorias[j].open;
   }
 
   ionViewDidLoad() {

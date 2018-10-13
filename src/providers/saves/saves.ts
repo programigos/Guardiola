@@ -14,7 +14,7 @@ export class SavesProvider {
 
   constructor(public http: HttpClient, private database: DatabaseProvider) {
     console.log('Hello SavesProvider Provider');
-  }
+  } 
 
   addExpenseIncome(usuario_id: number, grupo_id: number, categoria: number, descripcion: string, monto: number, fecha: string, gasto_ingreso:boolean){
     return new Promise((resolve, reject)=>{
@@ -34,7 +34,6 @@ export class SavesProvider {
       })
     })
   }
-<<<<<<< HEAD
   getUserDay(id,date:string){
     return new Promise((resolve, reject)=>{
       this.database.getUserDay(id,date).then(res=>{
@@ -44,8 +43,49 @@ export class SavesProvider {
       })
     })
   }
-=======
-
-  
->>>>>>> c07dece8a42e9273c338ae3f845b1591198476ec
+  getUserDayCategory(user_id,date:string,category_id){
+    return new Promise((resolve, reject)=>{
+      this.database.getUserDayCategory(user_id,date,category_id).then(res=>{
+        resolve(res);
+      }).catch(error => {
+        reject(error);
+      })
+    })
+  }
+  getUserMonth(id,month){
+    return new Promise((resolve, reject)=>{
+      this.database.getUserMonth(id,month).then(res=>{
+        resolve(res);
+      }).catch(error => {
+        reject(error);
+      })
+    })
+  }
+  getUserMonthCategory(user_id,month,category_id){
+    return new Promise((resolve, reject)=>{
+      this.database.getUserMonthCategory(user_id,month,category_id).then(res=>{
+        resolve(res);
+      }).catch(error => {
+        reject(error);
+      })
+    })
+  }
+  getUserYear(id,year){
+    return new Promise((resolve, reject)=>{
+      this.database.getUserYear(id,year).then(res=>{
+        resolve(res);
+      }).catch(error => {
+        reject(error);
+      })
+    })
+  }
+  getUserYearCategory(user_id,year,category_id){
+    return new Promise((resolve, reject)=>{
+      this.database.getUserYearCategory(user_id,year,category_id).then(res=>{
+        resolve(res);
+      }).catch(error => {
+        reject(error);
+      })
+    })
+  }
 }
