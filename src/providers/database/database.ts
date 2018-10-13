@@ -141,5 +141,8 @@ export class DatabaseProvider {
     })
   }
 
-  
+  changeUserInformation(){
+    
+  }
+
 }

@@ -5,10 +5,41 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
+    <ion-grid style="height: 100%">
+        <ion-row justify-content-center align-items-center style="height: 100%">
+          <div>
+              <div style="text-align:center" class="guardiola-title">
+                  <b> Guardiola </b>
+              </div>
+                <ion-item>
+                  <div> <b>Nombre:</b> </div>
+                  <div>{{user_data.nombre}}</div>
+                </ion-item>
 
+                <ion-item>
+                    <div> <b>Email:</b> </div>
+                    <div>{{user_data.email}}</div>
+                </ion-item>
+                
+                <ion-item>
+                  <div> <b>Fecha de Nacimiento:</b> </div>
+                  <div>{{user_data.fecha}}</div>
+                </ion-item>
+
+                <ion-item>
+                  <div> <b>Teléfono:</b> </div>
+                  <div>{{user_data.telefono}}</div>
+                </ion-item>
+
+                <div align="center">
+                  <button ion-button type="button" (click)="goEdit()">Actualizar Datos</button>
+                  <button ion-button type="button" (click)="dismiss()">Cerrar Sesión</button>
+                </div>
+          </div>
+        </ion-row>
+      </ion-grid>
 </ion-content>

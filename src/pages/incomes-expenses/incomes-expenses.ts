@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
 import { SavesProvider } from '../../providers/saves/saves'
@@ -20,8 +20,9 @@ export class IncomesExpensesPage {
 
   type:boolean;
   incomeForm:FormGroup;
+  pet: string = "expend";
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,private formBuilder: FormBuilder, private saves: SavesProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,private formBuilder: FormBuilder, private saves: SavesProvider, private toastCtrl: ToastController) {
     this.type=true;
     this.incomeForm=this.createIncomeForm();
   }
@@ -42,6 +43,7 @@ export class IncomesExpensesPage {
 
   addIncome(){
     let user_data = JSON.parse(localStorage.getItem('usuario_data'));
+    let in_eg = "Gasto";
     console.log(user_data);
     let data={
       user_id:user_data.id,
@@ -55,12 +57,17 @@ export class IncomesExpensesPage {
     console.log(data);
     if(this.type){
       data.concept= 8;
+      in_eg = "Ingreso";
     }
     this.saves.addExpenseIncome(data.user_id, null, data.concept, data.description, data.amount, data.date, data.type).then((result) =>{
+      this.presentToast(in_eg + " Añadido Correctamente");
+      this.incomeForm.reset();
       console.log(result);
     },(err)=>{
+      this.presentToast(err);
       console.log(err);
     }).catch((error)=>{
+      this.presentToast(error);
       console.log(error);
     })
     console.log(data);
@@ -68,6 +75,20 @@ export class IncomesExpensesPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad IncomesExpensesPage');
+  }
+
+  presentToast(valor: string){
+    let toast = this.toastCtrl.create({
+      message: valor,
+      duration: 3000,
+      position: 'bottom'
+    });
+  
+    toast.onDidDismiss(() => {
+      console.log('Dismissed toast');
+    });
+  
+    toast.present();
   }
 
 }
