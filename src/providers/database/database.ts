@@ -164,4 +164,30 @@ export class DatabaseProvider {
     })
   }
 
+  editPassword(new_password:string, id){
+    return new Promise((resolve, reject)=>{
+      let sql = "UPDATE usuarios SET password = ? WHERE id_usuario = ?";
+      this.db.executeSql(sql,[new_password, id]).then((data)=>{
+        resolve(data);
+      },(err)=>{
+        reject(err);
+      }).catch((error)=>{
+        reject(error);
+      })
+    })
+  }
+
+  getPassword(id){
+    return new Promise((resolve, reject) =>{
+      let sql = "SELECT * FROM usuarios WHERE id_usuario = ?";
+      this.db.executeSql(sql,[id]).then((data)=>{
+        resolve(data.rows.item(0).password);
+      },(err)=>{
+        reject(err);
+      }).catch((error)=>{
+        reject(error);
+      })
+    })
+  }
+
 }

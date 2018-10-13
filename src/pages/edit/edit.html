@@ -30,7 +30,10 @@
                 </div> 
                 <ion-item> 
                   <ion-datetime displayFormat="DD/MM/YYYY" placeholder="Fecha de Nacimiento" [formControl]="editForm.controls['date']"></ion-datetime>
-                </ion-item> 
+                </ion-item>
+                <ion-item> 
+                    <ion-input type="password" [formControl]="editForm.controls['password']" placeholder="Confirmar Contraseña"></ion-input>
+                  </ion-item>
                 <div align="center">
                   <button ion-button type="submit" [disabled]="!editForm.valid">Actualizar</button>
                   <button ion-button type="button" (click)="back()">Regresar</button>

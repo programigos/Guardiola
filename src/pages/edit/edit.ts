@@ -30,7 +30,8 @@ export class EditPage {
     return this.formBuilder.group({
       name:[this.user_data.nombre,Validators.required],
       phone:[this.user_data.telefono,Validators.compose([Validators.required,Validators.pattern('[0-9]{9}')])],
-      date:[this.user_data.fecha,Validators.required]
+      date:[this.user_data.fecha,Validators.required],
+      password: ['', Validators.compose([Validators.required, Validators.minLength(6), Validators.maxLength(16)])]
     })
   }
 
@@ -38,16 +39,28 @@ export class EditPage {
     let data = {
       name: this.editForm.value.name,
       date: this.editForm.value.date,
-      phone_number: this.editForm.value.phone
+      phone_number: this.editForm.value.phone,
+      password: this.editForm.value.password
     };
-    this.auth.editUser(data.name, data.date, data.phone_number, this.user_data.id).then((result)=>{
-      console.log(result);
-      this.user_data.nombre = data.name;
-      this.user_data.fecha = data.date;
-      this.user_data.telefono = data.phone_number;
-      localStorage.setItem('usuario_data', JSON.stringify(this.user_data));
-      this.presentToast("Datos Actualizados");
-      this.navCtrl.pop();
+    this.auth.getPassword(this.user_data.id).then((result)=>{
+      if(result == data.password){
+        this.auth.editUser(data.name, data.date, data.phone_number, this.user_data.id).then((result)=>{
+          console.log(result);
+          this.user_data.nombre = data.name;
+          this.user_data.fecha = data.date;
+          this.user_data.telefono = data.phone_number;
+          localStorage.setItem('usuario_data', JSON.stringify(this.user_data));
+          this.presentToast("Datos Actualizados");
+          this.navCtrl.pop();
+        },(err)=>{
+          console.log(err);
+        }).catch((error)=>{
+          console.log(error);
+        })
+      }
+      else{
+        this.presentToast("Contraseña Incorrecta");
+      }
     },(err)=>{
       console.log(err);
     }).catch((error)=>{

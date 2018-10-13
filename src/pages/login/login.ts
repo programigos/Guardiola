@@ -51,6 +51,7 @@ export class LoginPage {
       let largo = res.length;
       if(largo == 0){
         console.log("Datos Equivocados");
+        this.presentToast("Usuario o Contraseña Incorrectos");
       }
       else{
         console.log("Soy Valido");

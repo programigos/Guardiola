@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, App} from 'ionic-angular';
 
 import { LoginPage } from '../login/login';
 import { EditPage } from '../edit/edit';
+import { ChangePasswordPage } from '../change-password/change-password';
 /**
  * Generated class for the AccountPage page.
  *
@@ -33,6 +34,10 @@ export class AccountPage {
 
   goEdit(){
     this.navCtrl.push(EditPage);
+  }
+
+  goPassword(){
+    this.navCtrl.push(ChangePasswordPage);
   }
 
   dismiss(){

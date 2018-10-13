@@ -23,7 +23,7 @@ export class IncomesExpensesPage {
   pet: string = "expend";
 
   constructor(public navCtrl: NavController, public navParams: NavParams,private formBuilder: FormBuilder, private saves: SavesProvider, private toastCtrl: ToastController) {
-    this.type=true;
+    this.type=false;
     this.incomeForm=this.createIncomeForm();
   }
 

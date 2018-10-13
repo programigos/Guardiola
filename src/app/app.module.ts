@@ -15,6 +15,7 @@ import { IncomesExpensesPage } from '../pages/incomes-expenses/incomes-expenses'
 import { GroupPage } from '../pages/group/group';
 import { SavingPage } from '../pages/saving/saving';
 import { EditPage } from '../pages/edit/edit';
+import { ChangePasswordPage } from '../pages/change-password/change-password';
 
 import { SQLite } from '@ionic-native/sqlite';
 import { AuthProvider } from '../providers/auth/auth';
@@ -32,7 +33,8 @@ import { SavesProvider } from '../providers/saves/saves';
     IncomesExpensesPage,
     GroupPage,
     SavingPage,
-    EditPage
+    EditPage,
+    ChangePasswordPage
   ],
   imports: [
     HttpClientModule,
@@ -50,7 +52,8 @@ import { SavesProvider } from '../providers/saves/saves';
     IncomesExpensesPage,
     GroupPage,
     SavingPage,
-    EditPage
+    EditPage,
+    ChangePasswordPage
   ],
   providers: [
     StatusBar,

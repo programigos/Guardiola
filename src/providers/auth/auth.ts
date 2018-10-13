@@ -46,4 +46,28 @@ export class AuthProvider {
     })
   }
 
+  editPassword(new_password:string, id){
+    return new Promise((resolve, reject)=>{
+      this.database.editPassword(new_password,id).then((data)=>{
+        resolve(data);
+      },(err)=>{
+        reject(err);
+      }).catch((error)=>{
+        reject(error);
+      })
+    })
+  }
+
+  getPassword(id){
+    return new Promise((resolve, reject) =>{
+      this.database.getPassword(id).then((data)=>{
+        resolve(data);
+      },(err)=>{
+        reject(err);
+      }).catch((error)=>{
+        reject(error);
+      })
+    })
+  }
+
 }
