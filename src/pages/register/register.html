@@ -12,7 +12,7 @@
     <ion-grid style="height: 100%">
         <ion-row justify-content-center align-items-center style="height: 100%">
           <div>
-              <div style="text-align:center" class="guardiola-text">
+              <div style="text-align:center" class="guardiola-title">
                   <b> Guardiola </b>
               </div>
               <form [formGroup]="registerForm" (ngSubmit) = "doRegister()">
@@ -20,19 +20,19 @@
                   <ion-input type="text" [formControl]="registerForm.controls['name']" placeholder="Nombres"></ion-input>
                 </ion-item>
                 <div *ngIf="!registerForm.controls.name.valid && registerForm.controls.name.dirty" class="validator-error">
-                  El Nombre no es valido
+                  El Nombre no es Válido
                 </div> 
                 <ion-item>
                   <ion-input type="text" [formControl]="registerForm.controls['email']" placeholder="Correo electrónico"></ion-input>
                 </ion-item>
                 <div *ngIf="!registerForm.controls.email.valid && registerForm.controls.email.dirty" class="validator-error">
-                  El email no es valido
+                  El Email no es Válido
                 </div>
                 <ion-item>
                   <ion-input type="text" [formControl]="registerForm.controls['phone']" placeholder="Teléfono"></ion-input>
                 </ion-item>
                 <div *ngIf="!registerForm.controls.phone.valid && registerForm.controls.phone.dirty" class="validator-error">
-                  El numero no es valido
+                  El Número no es Válido
                 </div> 
                 <ion-item> 
                   <ion-datetime displayFormat="DD/MM/YYYY" placeholder="Fecha de Nacimiento" [formControl]="registerForm.controls['date']"></ion-datetime>
@@ -41,16 +41,18 @@
                   <ion-input type="password" [formControl]="registerForm.controls['password']" placeholder="Contraseña"></ion-input>
                 </ion-item>
                 <div *ngIf="!registerForm.controls.password.valid && registerForm.controls.password.dirty" class="validator-error">
-                  Una contraseña es requerida
+                  Una Contraseña es Requerida
                 </div>
                 <ion-item>
                   <ion-input type="password" [formControl]="registerForm.controls['confirmPassword']" placeholder="Confirmar contraseña"></ion-input>
                 </ion-item>
                 <div *ngIf="!registerForm.controls.confirmPassword.valid && registerForm.controls.confirmPassword.dirty" class="validator-error">
-                  Las contraseñas no coinciden
+                  Las Contraseñas no Coinciden
                 </div>
-                <div align="center"><button ion-button type="submit">Registrarse</button></div>
-                <!--[disabled]="!registerForm.valid"-->
+                <div align="center">
+                  <button ion-button type="submit" [disabled]="!registerForm.valid">Registrarse</button>
+                  <button ion-button type="button" (click)="back()">Regresar</button>
+                </div>
               </form>
           </div>
         </ion-row>

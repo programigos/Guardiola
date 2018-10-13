@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, App } from 'ionic-angular';
 
+import { LoginPage } from '../login/login';
+import { EditPage } from '../edit/edit';
 /**
  * Generated class for the AccountPage page.
  *
@@ -15,11 +17,25 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class AccountPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  user_data: any;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, private appCtrl: App) {
+    this.user_data = JSON.parse(localStorage.getItem('usuario_data'));
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad AccountPage');
+  }
+
+  goEdit(){
+    this.navCtrl.push(EditPage);
+  }
+
+  dismiss(){
+    localStorage.setItem('logeado','false');
+    localStorage.setItem('usuario_data','');
+    this.appCtrl.getRootNav().setRoot(LoginPage);
+    this.navCtrl.popToRoot();
   }
 
 }

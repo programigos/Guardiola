@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { HomePage } from '../home/home';
 import { RegisterPage } from '../register/register';
 
 import { AuthProvider } from '../../providers/auth/auth';
-import { jsonpCallbackContext } from '@angular/common/http/src/module';
 
 /**
  * Generated class for the LoginPage page.
@@ -24,7 +23,7 @@ export class LoginPage {
 
   loginForm: FormGroup;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder,private auth: AuthProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder,private auth: AuthProvider, private toastCtrl: ToastController) {
     this.loginForm = this.createLoginForm();
   }
 
@@ -61,14 +60,30 @@ export class LoginPage {
         this.navCtrl.popToRoot();
       }
     },(err)=>{
+      this.presentToast("Usuario o Contraseña Incorrectos");
       console.log(err);
     }).catch((error)=>{
+      this.presentToast("Usuario o Contraseña Incorrectos");
       console.log(error);
     });
   }
 
   goRegister(){
     this.navCtrl.push(RegisterPage);
+  }
+
+  presentToast(valor: string){
+    let toast = this.toastCtrl.create({
+      message: valor,
+      duration: 3000,
+      position: 'bottom'
+    });
+  
+    toast.onDidDismiss(() => {
+      console.log('Dismissed toast');
+    });
+  
+    toast.present();
   }
 
 }

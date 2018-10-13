@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
 import { AuthProvider } from '../../providers/auth/auth'
@@ -19,7 +19,7 @@ export class RegisterPage {
 
   registerForm : FormGroup;
 
-  constructor(private formBuilder: FormBuilder,public navCtrl: NavController, public navParams: NavParams, private auth: AuthProvider) {
+  constructor(private formBuilder: FormBuilder,public navCtrl: NavController, public navParams: NavParams, private auth: AuthProvider, private toastCtrl: ToastController) {
     this.registerForm=this.createRegisterForm();
   }
 
@@ -48,7 +48,6 @@ export class RegisterPage {
       date:['',Validators.required],
       password: ['',Validators.required],
       confirmPassword:['',Validators.required],
-      terms:[false,Validators.requiredTrue]
     }, {validator: this.matchingPasswords('password', 'confirmPassword')});
   }
 
@@ -62,12 +61,33 @@ export class RegisterPage {
     };
     this.auth.registerUser(data.name, data.email, data.date, data.phone_number, data.password).then((result)=>{
       console.log(result);
+      this.presentToast("Usuario registrado correctamente");
       this.navCtrl.pop();
     },(err)=>{
       console.log(err);
+      this.presentToast("Ha Ocurrido un Error Inesperado");
     }).catch((error)=>{
       console.log(error);
+      this.presentToast("Ha Ocurrido un Error Inesperado");
     });
+  }
+
+  back(){
+    this.navCtrl.pop();
+  }
+
+  presentToast(valor: string){
+    let toast = this.toastCtrl.create({
+      message: valor,
+      duration: 3000,
+      position: 'bottom'
+    });
+  
+    toast.onDidDismiss(() => {
+      console.log('Dismissed toast');
+    });
+  
+    toast.present();
   }
 
 }
