@@ -31,6 +31,14 @@ export class DatabaseProvider {
         db.executeSql("CREATE TABLE IF NOT EXISTS gastos_ingresos (id_concepto INTEGER PRIMARY KEY AUTOINCREMENT, usuario_id INTEGER, grupo_id INTEGER, categoria INTEGER, descripcion TEXT, monto NUMERIC, fecha DATE, gasto_ingreso BOOLEAN, FOREIGN KEY (usuario_id) REFERENCES usuarios (id_usuario), FOREIGN KEY (grupo_id) REFERENCES grupos (id_grupo), FOREIGN KEY (categoria) REFERENCES categorias (id_categoria))",[]);
         db.executeSql("CREATE TABLE IF NOT EXISTS ahorros (id_ahorro INTEGER PRIMARY KEY AUTOINCREMENT, usuario_id INTEGER, grupo_id INTEGER, monto_objetivo NUMERIC, personal_grupal BOOLEAN, FOREIGN KEY (usuario_id) REFERENCES usuarios (id_usuario), FOREIGN KEY (grupo_id) REFERENCES grupos (id_grupo))",[]);
         db.executeSql("CREATE TABLE IF NOT EXISTS recuerdos (id_recuerdo INTEGER PRIMARY KEY AUTOINCREMENT, usuario_id INTEGER, grupo_id INTEGER, categoria INTEGER, periodicidad TIMESTAMP, descripcion TEXT, monto NUMERIC, FOREIGN KEY (usuario_id) REFERENCES usuarios (id_usuario), FOREIGN KEY (grupo_id) REFERENCES grupos (id_grupo), FOREIGN KEY (categoria) REFERENCES categorias (id_categoria))",[]);
+        db.executeSql("INSERT INTO categorias (nombre) VALUES ('Comida')",[]);
+        db.executeSql("INSERT INTO categorias (nombre) VALUES ('Servicios y hogar')",[]);
+        db.executeSql("INSERT INTO categorias (nombre) VALUES ('Entretenimiento')",[]);
+        db.executeSql("INSERT INTO categorias (nombre) VALUES ('Transporte')",[]);
+        db.executeSql("INSERT INTO categorias (nombre) VALUES ('Salud')",[]);
+        db.executeSql("INSERT INTO categorias (nombre) VALUES ('Educación')",[]);
+        db.executeSql("INSERT INTO categorias (nombre) VALUES ('Generales')",[]);
+        db.executeSql("INSERT INTO categorias (nombre) VALUES ('Ingreso')",[]);
         this.isOpen = true;
         console.log('Base de datos creada');
       },(err)=>{
@@ -89,7 +97,7 @@ export class DatabaseProvider {
   }
   getUserSave(id){
     return new Promise((resolve, reject) =>{
-      let sql = "SELECT * FROM gastos_ingresos WHERE usuario_id = ?";
+      let sql = "SELECT * FROM gastos_ingresos INNER JOIN categorias on categoria=id_categoria WHERE usuario_id = ? ORDER BY categoria";
       this.db.executeSql(sql,[id]).then((data)=>{
         let saves=[];
         for(var i = 0; i < data.rows.length; ++i){
@@ -97,7 +105,34 @@ export class DatabaseProvider {
             id: data.rows.item(i).id_concepto,
             user: data.rows.item(i).usuario_id,
             group: data.rows.item(i).grupo_id,
-            category: data.rows.item(i).categoria,
+            category: data.rows.item(i).nombre,
+            category_id:data.rows.item(i).categoria,
+            description: data.rows.item(i).descripcion,
+            amount:data.rows.item(i).monto,
+            date:data.rows.item(i).fecha,
+            type:data.rows.item(i).gasto_ingreso
+          })
+        }
+        console.log("Expenses and Incomes");
+        console.log(saves);
+        resolve(saves);
+      },(err)=>{
+        reject(err);
+      })
+    })
+  }
+  getUserCategory(id,category){
+    return new Promise((resolve, reject) =>{
+      let sql = "SELECT * FROM gastos_ingresos INNER JOIN categorias on categoria=id_categoria WHERE usuario_id = ? ORDER BY categoria";
+      this.db.executeSql(sql,[id]).then((data)=>{
+        let saves=[];
+        for(var i = 0; i < data.rows.length; ++i){
+          saves.push({
+            id: data.rows.item(i).id_concepto,
+            user: data.rows.item(i).usuario_id,
+            group: data.rows.item(i).grupo_id,
+            category: data.rows.item(i).nombre,
+            category_id:data.rows.item(i).categoria,
             description: data.rows.item(i).descripcion,
             amount:data.rows.item(i).monto,
             date:data.rows.item(i).fecha,

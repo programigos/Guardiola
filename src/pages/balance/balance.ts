@@ -34,7 +34,15 @@ export class BalancePage {
       name:"año"
     };
     this.information.push(year);
-    this.saves.getUserSave(user_data.id);
+    this.saves.getUserSave(user_data.id).then((result)=>{
+      let balance = JSON.parse(JSON.stringify(result));
+      console.log("Balance:");
+      console.log(balance);
+    },(err)=>{
+      console.log(err);
+    }).catch((error)=>{
+      console.log(error);
+    });
   }
 
   toggleSection(idx) {
