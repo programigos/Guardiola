@@ -36,4 +36,14 @@ export class AuthProvider {
     })
   }
 
+  editUser(nombre:string, fecha_nacimiento:string, telefono:number, id){
+    return new Promise((resolve, reject)=>{
+      this.database.editUser(nombre, fecha_nacimiento, telefono, id).then((data)=>{
+        resolve(data);
+      }).catch((error)=>{
+        reject(error);
+      })
+    })
+  }
+
 }

@@ -43,6 +43,7 @@ export class SavesProvider {
       })
     })
   }
+<<<<<<< HEAD
   getUserDayCategory(user_id,date:string,category_id){
     return new Promise((resolve, reject)=>{
       this.database.getUserDayCategory(user_id,date,category_id).then(res=>{
@@ -88,4 +89,6 @@ export class SavesProvider {
       })
     })
   }
+=======
+>>>>>>> c7cae0845d97e30936cbaa766fedf300ef076d66
 }

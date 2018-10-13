@@ -57,6 +57,8 @@ export class DatabaseProvider {
         resolve(data);
       },(err)=>{
         reject(err);
+      }).catch((error)=>{
+        reject(error);
       })
     })
   }
@@ -79,6 +81,8 @@ export class DatabaseProvider {
         resolve(arrayUsers);
       },(err)=>{
         reject(err);
+      }).catch((error)=>{
+        reject(error);
       })
     })
   }
@@ -92,6 +96,8 @@ export class DatabaseProvider {
         resolve(data);
       },(err)=>{
         reject(err);
+      }).catch((error)=>{
+        reject(error);
       })
     })
   }
@@ -117,6 +123,8 @@ export class DatabaseProvider {
         resolve(saves);
       },(err)=>{
         reject(err);
+      }).catch((error)=>{
+        reject(error);
       })
     })
   }
@@ -271,12 +279,23 @@ export class DatabaseProvider {
         resolve(saves);
       },(err)=>{
         reject(err);
+      }).catch((error)=>{
+        reject(error);
       })
     })
   }
 
-  changeUserInformation(){
-    
+  editUser(nombre:string, fecha_nacimiento:string, telefono:number, id){
+    return new Promise((resolve, reject)=>{
+      let sql = "UPDATE usuarios SET nombre = ?, fecha_nacimiento = ?, telefono = ? WHERE id_usuario = ?";
+      this.db.executeSql(sql,[nombre, fecha_nacimiento, telefono, id]).then((data)=>{
+        resolve(data);
+      },(err)=>{
+        reject(err);
+      }).catch((error)=>{
+        reject(error);
+      })
+    })
   }
 
 }
