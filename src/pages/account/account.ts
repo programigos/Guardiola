@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, App } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, App} from 'ionic-angular';
 
 import { LoginPage } from '../login/login';
 import { EditPage } from '../edit/edit';
@@ -25,6 +25,10 @@ export class AccountPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad AccountPage');
+  }
+
+  ionViewWillEnter(){
+    this.user_data = JSON.parse(localStorage.getItem('usuario_data'));
   }
 
   goEdit(){

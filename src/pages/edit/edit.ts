@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
+import { AuthProvider } from '../../providers/auth/auth';
+
 /**
  * Generated class for the EditPage page.
  *
@@ -19,21 +21,38 @@ export class EditPage {
   editForm: FormGroup;
   user_data: any;
 
-  constructor(private formBuilder: FormBuilder, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private formBuilder: FormBuilder, public navCtrl: NavController, public navParams: NavParams, private auth: AuthProvider, private toastCtrl: ToastController) {
     this.user_data = JSON.parse(localStorage.getItem('usuario_data'));
     this.editForm = this.createEditForm();
   }
 
   private createEditForm(){
     return this.formBuilder.group({
-      name:['',Validators.required],
-      phone:['',Validators.compose([Validators.required,Validators.pattern('[0-9]{9}')])],
-      date:['',Validators.required]
+      name:[this.user_data.nombre,Validators.required],
+      phone:[this.user_data.telefono,Validators.compose([Validators.required,Validators.pattern('[0-9]{9}')])],
+      date:[this.user_data.fecha,Validators.required]
     })
   }
 
   doUpdate(){
-    
+    let data = {
+      name: this.editForm.value.name,
+      date: this.editForm.value.date,
+      phone_number: this.editForm.value.phone
+    };
+    this.auth.editUser(data.name, data.date, data.phone_number, this.user_data.id).then((result)=>{
+      console.log(result);
+      this.user_data.nombre = data.name;
+      this.user_data.fecha = data.date;
+      this.user_data.telefono = data.phone_number;
+      localStorage.setItem('usuario_data', JSON.stringify(this.user_data));
+      this.presentToast("Datos Actualizados");
+      this.navCtrl.pop();
+    },(err)=>{
+      console.log(err);
+    }).catch((error)=>{
+      console.log(error);
+    })
   }
 
   back(){
@@ -44,4 +63,17 @@ export class EditPage {
     console.log('ionViewDidLoad EditPage');
   }
 
+  presentToast(valor: string){
+    let toast = this.toastCtrl.create({
+      message: valor,
+      duration: 3000,
+      position: 'bottom'
+    });
+  
+    toast.onDidDismiss(() => {
+      console.log('Dismissed toast');
+    });
+  
+    toast.present();
+  }
 }

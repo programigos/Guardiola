@@ -13,23 +13,23 @@
         <ion-row justify-content-center align-items-center style="height: 100%">
           <div>
               <div style="text-align:center" class="guardiola-title">
-                  <b> Guardiola </b>
+                  <b> Actualizar </b>
               </div>
               <form [formGroup]="editForm" (ngSubmit) = "doUpdate()">
                 <ion-item>
-                  <ion-input type="text" [formControl]="editForm.controls['name']" placeholder="Nombres">{{user_data.nombre}}</ion-input>
+                  <ion-input type="text" [formControl]="editForm.controls['name']" placeholder="Nombres"></ion-input>
                 </ion-item>
                 <div *ngIf="!editForm.controls.name.valid && editForm.controls.name.dirty" class="validator-error">
                   El Nombre no es Válido
                 </div> 
                 <ion-item>
-                  <ion-input type="text" [formControl]="editForm.controls['phone']" placeholder="Teléfono">{{user_data.telefono}}</ion-input>
+                  <ion-input type="text" [formControl]="editForm.controls['phone']" placeholder="Teléfono"></ion-input>
                 </ion-item>
                 <div *ngIf="!editForm.controls.phone.valid && editForm.controls.phone.dirty" class="validator-error">
                   El Número no es Válido
                 </div> 
                 <ion-item> 
-                  <ion-datetime displayFormat="DD/MM/YYYY" placeholder="Fecha de Nacimiento" [formControl]="editForm.controls['date']">{{user_data.fecha}}</ion-datetime>
+                  <ion-datetime displayFormat="DD/MM/YYYY" placeholder="Fecha de Nacimiento" [formControl]="editForm.controls['date']"></ion-datetime>
                 </ion-item> 
                 <div align="center">
                   <button ion-button type="submit" [disabled]="!editForm.valid">Actualizar</button>
