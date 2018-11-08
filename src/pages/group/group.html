@@ -8,6 +8,35 @@
 </ion-header>
 
 
-<ion-content padding>
-
+<ion-content>
+    <ion-grid style="height: 100%">
+        <ion-row justify-content-center align-items-center style="height: 100%">
+          <div>
+              <div style="text-align:center" class="guardiola-title">
+                  <b> Guardiola </b>
+              </div>
+              <div>
+                  <form [formGroup]="createGroupForm" (ngSubmit) = "createGroup()">
+                    <ion-item>
+                      <ion-input type="text" [formControl]="createGroupForm.controls['name']" placeholder="Nombre del Grupo"></ion-input>
+                    </ion-item>
+                    <div align="center">
+                        <button ion-button type="submit" [disabled]="!createGroupForm.valid">Crear Grupo</button>
+                    </div>
+                  </form>
+                </div>
+              
+                <div>
+                  <form [formGroup]="joinGroupForm" (ngSubmit) = "joinGroup()">
+                    <ion-item>
+                      <ion-input type="text" [formControl]="joinGroupForm.controls['code']" placeholder="Código del Grupo"></ion-input>
+                    </ion-item>
+                    <div align="center">
+                        <button ion-button type="submit" [disabled]="!joinGroupForm.valid">Unirse a un Grupo</button>
+                    </div>
+                  </form>
+                </div>
+          </div>
+        </ion-row>
+      </ion-grid>
 </ion-content>
