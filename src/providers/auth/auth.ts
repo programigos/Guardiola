@@ -70,4 +70,16 @@ export class AuthProvider {
     })
   }
 
+  getUserGroup(id){
+    return new Promise((resolve, reject) =>{
+      this.database.getUserGroup(id).then((data)=>{
+        resolve(data);
+      },(err)=>{
+        reject(err);
+      }).catch((error)=>{
+        reject(error);
+      })
+    })
+  }
+
 }

@@ -7,13 +7,12 @@
 <ion-header>
 </ion-header>
 
-
 <ion-content>
     <ion-grid style="height: 100%">
         <ion-row justify-content-center align-items-center style="height: 100%">
-          <div>
+          <div *ngIf="!hasGroup">
               <div style="text-align:center" class="guardiola-title">
-                  <b> Guardiola </b>
+                  <b> GUARDiola </b>
               </div>
               <div>
                   <form [formGroup]="createGroupForm" (ngSubmit) = "createGroup()">
@@ -36,6 +35,29 @@
                     </div>
                   </form>
                 </div>
+          </div>
+          <div *ngIf="hasGroup">
+            <div style="text-align:center" class="guardiola-title">
+              <b> GUARDdiola </b>
+            </div>
+            <ion-item>
+              <div> <b>Nombre:</b> </div>
+              <div>{{group_data.nombre}}</div>
+            </ion-item>
+
+            <ion-item>
+                <div> <b>Email:</b> </div>
+                <div>{{group_data.codigo}}</div>
+            </ion-item>
+            
+            <ion-item>
+              <div> <b>Fecha de Nacimiento:</b> </div>
+              <div>{{group_data.creador_id}}</div>
+            </ion-item>
+
+            <div align="center">
+              <button ion-button type="button" (click)="dismiss()">Dejar Grupo</button>
+            </div>
           </div>
         </ion-row>
       </ion-grid>

@@ -25,7 +25,7 @@ export class DatabaseProvider {
       }).then((db:SQLiteObject)=>{
         this.db = db;
         db.executeSql("CREATE TABLE IF NOT EXISTS usuarios (id_usuario INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR, email VARCHAR UNIQUE, fecha_nacimiento DATE, telefono NUMBER, password VARCHAR)",[]);
-        db.executeSql("CREATE TABLE IF NOT EXISTS grupos (id_grupo INTEGER PRIMARY KEY AUTOINCREMENT, codigo VARCHAR UNIQUE, nombre VARCHAR, creador_id INTEGER ,FOREIGN KEY (creador_id) REFERENCES usuarios (id_usuario))",[]);
+        db.executeSql("CREATE TABLE IF NOT EXISTS grupos (id_grupo INTEGER PRIMARY KEY AUTOINCREMENT, codigo VARCHAR UNIQUE, nombre VARCHAR, creador_id INTEGER, FOREIGN KEY (creador_id) REFERENCES usuarios (id_usuario))",[]);
         db.executeSql("CREATE TABLE IF NOT EXISTS usuarios_grupos (usuario_grupo_id INTEGER PRIMARY KEY AUTOINCREMENT, usuario_id INTEGER, grupo_id INTEGER, FOREIGN KEY (usuario_id) REFERENCES usuarios (id_usuario), FOREIGN KEY(grupo_id) REFERENCES grupos (id_grupo))",[]);
         db.executeSql("CREATE TABLE IF NOT EXISTS categorias (id_categoria INTEGER PRIMARY KEY, nombre VARCHAR)",[]);
         db.executeSql("CREATE TABLE IF NOT EXISTS gastos_ingresos (id_concepto INTEGER PRIMARY KEY AUTOINCREMENT, usuario_id INTEGER, grupo_id INTEGER, categoria INTEGER, descripcion TEXT, monto NUMERIC, fecha DATE, gasto_ingreso BOOLEAN, FOREIGN KEY (usuario_id) REFERENCES usuarios (id_usuario), FOREIGN KEY (grupo_id) REFERENCES grupos (id_grupo), FOREIGN KEY (categoria) REFERENCES categorias (id_categoria))",[]);
@@ -54,6 +54,7 @@ export class DatabaseProvider {
       let sql = "INSERT INTO usuarios (nombre, email, fecha_nacimiento, telefono, password) VALUES (?,?,?,?,?)";
       this.db.executeSql(sql,[nombre, email, fecha_nacimiento, telefono, password]).then((data)=>{
         console.log("Usuario creado");
+        console.log(data);
         resolve(data);
       },(err)=>{
         reject(err);
@@ -87,8 +88,93 @@ export class DatabaseProvider {
     })
   }
 
-  createGroup(name: string){
+  createGroup(usuario_id: number, codigo: string, name: string){
+    return new Promise((resolve, reject) =>{
+      let sql = "INSERT INTO grupos (codigo, nombre, creador_id) VALUES (?,?,?)";
+      this.db.executeSql(sql,[codigo, name, usuario_id]).then((data)=>{
+        console.log("Group Created");
+        this.addUserGroup(usuario_id, data.insertId);
+        resolve(data.insertId);
+      },(err)=>{
+        reject(err);
+      }).catch((error)=>{
+        reject(error);
+      })
+    })
+  }
 
+  addUserGroup(usuario_id: number, grupo_id: number){
+    return new Promise((resolve, reject) =>{
+      let sql = "INSERT INTO usuarios_grupos (usuario_id, grupo_id) VALUES (?,?)";
+      this.db.executeSql(sql,[usuario_id, grupo_id]).then((data)=>{
+        console.log("User Added");
+        console.log(data);
+        resolve(data);
+      },(err)=>{
+        reject(err);
+      }).catch((error)=>{
+        reject(error);
+      })
+    })
+  }
+  
+  addUserGroupCode(usuario_id: number, codigo: string){
+    return new Promise((resolve, reject) =>{
+      let sql = "SELECT * FROM grupos WHERE codigo = ?";
+      this.db.executeSql(sql,[codigo]).then((data)=>{
+        if(data.rows.length == 0){
+          resolve("Grupo no Encontrado");
+        }
+        else{
+          resolve(this.addUserGroup(usuario_id, data.item(0).id_grupo));
+        }
+      },(err)=>{
+        reject(err);
+      }).catch((error)=>{
+        reject(error);
+      })
+    })
+  }
+
+  getUserGroup(usuario_id: number){
+    return new Promise((resolve, reject) =>{
+      let sql = "SELECT * FROM usuarios_grupos WHERE usuario_id = ?";
+      this.db.executeSql(sql,[usuario_id]).then((data)=>{
+        let groupArray = [];
+        for(var i = 0; i < data.rows.length; ++i){
+          groupArray.push({
+            group_id: data.rows.item(i).grupo_id
+          })
+        }
+        resolve(groupArray);
+      },(err)=>{
+        reject(err);
+      }).catch((error)=>{
+        reject(error);
+      })
+    })
+  }
+
+  getGroupInfo(group_id: number){
+    return new Promise((resolve, reject) =>{
+      let sql = "SELECT * FROM grupos WHERE id_grupo = ?";
+      this.db.executeSql(sql,[group_id]).then((data)=>{
+        let groupArray = [];
+        for(var i = 0; i < data.rows.length; ++i){
+          groupArray.push({
+            group_id: data.rows.item(i).id_grupo,
+            codigo: data.rows.item(i).codigo,
+            nombre: data.rows.item(i).nombre,
+            creador_id: data.rows.item(i).creador_id
+          })
+        }
+        resolve(groupArray);
+      },(err)=>{
+        reject(err);
+      }).catch((error)=>{
+        reject(error);
+      })
+    })
   }
 
   addExpenseIncome(usuario_id: number, grupo_id: number, categoria: number, descripcion: string, monto: number, fecha: string, gasto_ingreso:boolean){

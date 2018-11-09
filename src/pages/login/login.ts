@@ -57,6 +57,19 @@ export class LoginPage {
         console.log("Soy Valido");
         localStorage.setItem('logeado','true');
         localStorage.setItem('usuario_data', JSON.stringify(res[0]));
+        this.auth.getUserGroup(res[0].id).then((result)=>{
+          let resu = JSON.parse(JSON.stringify(result));
+          console.log(resu);
+          console.log(resu[0])
+          let largo = resu.length;
+          if(largo == 0){
+            console.log("No Tiene Grupo");
+          }
+          else{
+            console.log("Si Tiene Grupo");
+            localStorage.setItem('group_id', JSON.stringify(resu[0]));
+          }
+        })
         this.navCtrl.setRoot(HomePage);
         this.navCtrl.popToRoot();
       }
