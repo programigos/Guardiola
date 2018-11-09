@@ -34,7 +34,7 @@ export class AccountPage {
   }
 
   goEdit(){
-    this.navCtrl.push(EditPage);
+    this.navCtrl.push(EditPage);//Cargar pagina para modificar datos
   }
 
   goPassword(){
