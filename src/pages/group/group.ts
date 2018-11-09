@@ -103,7 +103,7 @@ export class GroupPage {
   getGroupInfo(){
     let group_id = JSON.parse(localStorage.getItem('group_id'));
     this.groupCtrl.getGroupInfo(group_id).then((result)=>{
-      this.group_data = result;
+      this.group_data = result[0];
       console.log(result);
     },(err)=>{
       console.log(err);
