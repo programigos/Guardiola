@@ -22,7 +22,7 @@ export class AccountPage {
   user_data: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private appCtrl: App) {
-    this.user_data = JSON.parse(localStorage.getItem('usuario_data'));
+    this.user_data = JSON.parse(localStorage.getItem('usuario_data'));//Mostrar los datos del usuario
   }
 
   ionViewDidLoad() {
