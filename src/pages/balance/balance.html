@@ -62,11 +62,11 @@
                     <ion-icon item-right name="arrow-dropdown-circle" *ngIf="!categoria.open"></ion-icon>
                     <ion-icon item-right name="arrow-dropright-circle" *ngIf="categoria.open"></ion-icon>
                     <ion-row>
-                      <ion-col col-8>
+                      <ion-col col-7>
                         {{ categoria.category }}
                       </ion-col>
-                      <ion-col col-3>
-                        S/.{{ categoria.amount}}
+                      <ion-col col-5>
+                        S/.{{ categoria.amount.toFixed(2)}}
                       </ion-col>
                     </ion-row>
                   </button>
@@ -76,11 +76,11 @@
                     <ion-list>
                       <ion-item *ngFor="let income of categoria.incomes">
                         <ion-row>
-                          <ion-col col-9>
+                          <ion-col col-7>
                             {{income.description}}:{{income.date}}
                           </ion-col>
-                          <ion-col col-3>
-                            S/.{{income.amount}}
+                          <ion-col col-5>
+                            S/.{{income.amount.toFixed(2)}}
                           </ion-col>
                         </ion-row>
                       </ion-item>
