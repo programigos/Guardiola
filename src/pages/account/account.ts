@@ -41,7 +41,7 @@ export class AccountPage {
     this.navCtrl.push(ChangePasswordPage);
   }
 
-  dismiss(){
+  dismiss(){// Logout
     localStorage.setItem('logeado','false');
     localStorage.setItem('usuario_data','');
     localStorage.setItem('group_id','undefined');
