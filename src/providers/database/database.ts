@@ -126,7 +126,8 @@ export class DatabaseProvider {
           resolve("Grupo no Encontrado");
         }
         else{
-          resolve(this.addUserGroup(usuario_id, data.item(0).id_grupo));
+          this.addUserGroup(usuario_id, data.rows.item(0).id_grupo);
+          resolve(data.rows.item(0).id_grupo);
         }
       },(err)=>{
         reject(err);

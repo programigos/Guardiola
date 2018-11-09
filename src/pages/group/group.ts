@@ -69,6 +69,7 @@ export class GroupPage {
     }
     this.groupCtrl.addUserGroupCode(data.usuario_id, data.codigo).then((result)=>{
       this.presentToast("Ingreso Correcto");
+      localStorage.setItem('group_id', JSON.stringify(result));
       this.hasGroup = true;
       this.getGroupInfo();
       console.log(result);

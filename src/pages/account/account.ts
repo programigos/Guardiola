@@ -4,6 +4,7 @@ import { IonicPage, NavController, NavParams, App} from 'ionic-angular';
 import { LoginPage } from '../login/login';
 import { EditPage } from '../edit/edit';
 import { ChangePasswordPage } from '../change-password/change-password';
+import { LOCALE_DATA } from '@angular/common/src/i18n/locale_data';
 /**
  * Generated class for the AccountPage page.
  *
@@ -43,6 +44,7 @@ export class AccountPage {
   dismiss(){
     localStorage.setItem('logeado','false');
     localStorage.setItem('usuario_data','');
+    localStorage.setItem('group_id','undefined');
     this.appCtrl.getRootNav().setRoot(LoginPage);
     this.navCtrl.popToRoot();
   }
