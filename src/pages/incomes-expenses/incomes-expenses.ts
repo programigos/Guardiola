@@ -29,7 +29,7 @@ export class IncomesExpensesPage {
 
   private createIncomeForm(){
     return this.formBuilder.group({
-      concept: ['',Validators.required],
+      concept: ['',],
       description: ['',],
       date:['',Validators.required],
       amount:['',Validators.required],

@@ -24,7 +24,7 @@ export class DatabaseProvider {
         location: "default"
       }).then((db:SQLiteObject)=>{
         this.db = db;
-        db.executeSql("CREATE TABLE IF NOT EXISTS usuarios (id_usuario INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR, email VARCHAR UNIQUE, fecha_nacimiento DATE, telefono NUMBER, password VARCHAR)",[]);
+        db.executeSql("CREATE TABLE IF NOT EXISTS usuarios (id_usuario INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR, email VARCHAR UNIQUE, fecha_nacimiento DATE, telefono NUMBER, password VARCHAR, saldo NUMBER)",[]);
         db.executeSql("CREATE TABLE IF NOT EXISTS grupos (id_grupo INTEGER PRIMARY KEY AUTOINCREMENT, codigo VARCHAR UNIQUE, nombre VARCHAR, creador_id INTEGER, FOREIGN KEY (creador_id) REFERENCES usuarios (id_usuario))",[]);
         db.executeSql("CREATE TABLE IF NOT EXISTS usuarios_grupos (usuario_grupo_id INTEGER PRIMARY KEY AUTOINCREMENT, usuario_id INTEGER, grupo_id INTEGER, FOREIGN KEY (usuario_id) REFERENCES usuarios (id_usuario), FOREIGN KEY(grupo_id) REFERENCES grupos (id_grupo))",[]);
         db.executeSql("CREATE TABLE IF NOT EXISTS categorias (id_categoria INTEGER PRIMARY KEY, nombre VARCHAR)",[]);
@@ -49,10 +49,10 @@ export class DatabaseProvider {
     }
   }
 
-  registerUser(nombre:string, email:string, fecha_nacimiento:string, telefono: number, password:string){
+  registerUser(nombre:string, email:string, fecha_nacimiento:string, telefono: number, password:string, saldo:number){
     return new Promise ((resolve, reject) =>{
-      let sql = "INSERT INTO usuarios (nombre, email, fecha_nacimiento, telefono, password) VALUES (?,?,?,?,?)";
-      this.db.executeSql(sql,[nombre, email, fecha_nacimiento, telefono, password]).then((data)=>{
+      let sql = "INSERT INTO usuarios (nombre, email, fecha_nacimiento, telefono, password, saldo) VALUES (?,?,?,?,?,?)";
+      this.db.executeSql(sql,[nombre, email, fecha_nacimiento, telefono, password, saldo]).then((data)=>{
         console.log("Usuario creado");
         console.log(data);
         resolve(data);
@@ -76,7 +76,8 @@ export class DatabaseProvider {
             nombre: data.rows.item(i).nombre,
             email: data.rows.item(i).email,
             fecha: data.rows.item(i).fecha_nacimiento,
-            telefono: data.rows.item(i).telefono
+            telefono: data.rows.item(i).telefono,
+            saldo: data.rows.item(i).saldo
           })
         }
         resolve(arrayUsers);
@@ -137,6 +138,31 @@ export class DatabaseProvider {
     })
   }
 
+  dropUserGroup(usuario_id: number, group_id: number, is_creator: boolean){
+    return new Promise((resolve, reject) =>{
+      if(is_creator){
+        let sql = "DELETE FROM usuarios_grupos WHERE grupo_id = ?";
+        this.db.executeSql(sql,[group_id]).then((data)=>{
+          resolve(data);
+        },(err)=>{
+          reject(err);
+        }).catch((error)=>{
+          reject(error);
+        })
+      }
+      else{
+        let sql = "DELETE FROM usuarios_grupos WHERE usuario_id = ? AND grupo_id = ?";
+        this.db.executeSql(sql,[usuario_id, group_id]).then((data)=>{
+          resolve(data);
+        },(err)=>{
+          reject(err);
+        }).catch((error)=>{
+          reject(error);
+        })
+      }
+    })
+  }
+
   getUserGroup(usuario_id: number){
     return new Promise((resolve, reject) =>{
       let sql = "SELECT * FROM usuarios_grupos WHERE usuario_id = ?";
@@ -170,6 +196,30 @@ export class DatabaseProvider {
           })
         }
         resolve(groupArray);
+      },(err)=>{
+        reject(err);
+      }).catch((error)=>{
+        reject(error);
+      })
+    })
+  }
+
+  getCreatorGroup(usuario_id: number){
+    console.log(usuario_id);
+    return new Promise((resolve, reject) =>{
+      let sql = "SELECT * FROM usuarios WHERE id_usuario = ?";
+      this.db.executeSql(sql,[usuario_id]).then((data)=>{
+        let userArray = [];
+        for(var i = 0; i < data.rows.length; ++i){
+          userArray.push({
+            id: data.rows.item(i).id_usuario,
+            nombre: data.rows.item(i).nombre,
+            email: data.rows.item(i).email,
+            fecha: data.rows.item(i).fecha_nacimiento,
+            telefono: data.rows.item(i).telefono
+          })
+        }
+        resolve(userArray);
       },(err)=>{
         reject(err);
       }).catch((error)=>{

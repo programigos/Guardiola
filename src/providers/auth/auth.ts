@@ -16,9 +16,9 @@ export class AuthProvider {
     console.log('Hello DatabaseProvider Provider');
   }
 
-  registerUser(nombre:string, email: string, fecha:string, telefono:number, password:string){
+  registerUser(nombre:string, email: string, fecha:string, telefono:number, password:string, saldo:number){
     return new Promise((resolve, reject)=>{
-      this.database.registerUser(nombre, email, fecha, telefono, password).then(res=>{
+      this.database.registerUser(nombre, email, fecha, telefono, password, saldo).then(res=>{
         resolve(res);
       }).catch(error=>{
         reject(error);

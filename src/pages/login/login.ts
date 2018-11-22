@@ -64,10 +64,11 @@ export class LoginPage {
           let largo = resu.length;
           if(largo == 0){
             console.log("No Tiene Grupo");
+            localStorage.setItem('group_id', 'undefined');
           }
           else{
             console.log("Si Tiene Grupo");
-            localStorage.setItem('group_id', JSON.stringify(resu[0]));
+            localStorage.setItem('group_id', JSON.stringify(resu[0]["group_id"]));
           }
         })
         this.navCtrl.setRoot(HomePage);

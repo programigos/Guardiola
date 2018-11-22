@@ -57,9 +57,10 @@ export class RegisterPage {
       email: this.registerForm.value.email,
       date: this.registerForm.value.date,
       phone_number: this.registerForm.value.phone,
-      password: this.registerForm.value.password
+      password: this.registerForm.value.password,
+      wallet: 0
     };
-    this.auth.registerUser(data.name, data.email, data.date, data.phone_number, data.password).then((result)=>{
+    this.auth.registerUser(data.name, data.email, data.date, data.phone_number, data.password, data.wallet).then((result)=>{
       console.log(result);
       this.presentToast("Usuario registrado correctamente");
       this.navCtrl.pop();

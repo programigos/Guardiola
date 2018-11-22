@@ -45,4 +45,24 @@ export class GroupProvider {
       })
     })
   }
+
+  dropUserGroup(usuario_id: number, group_id: number, is_creator: boolean){
+    return new Promise((resolve, reject) =>{
+      this.database.dropUserGroup(usuario_id, group_id, is_creator).then(res=>{
+        resolve(res);
+      }).catch(error => {
+        reject(error);
+      })
+    })
+  }
+
+  getCreatorGroup(usuario_id: number){
+    return new Promise((resolve, reject) =>{
+      this.database.getCreatorGroup(usuario_id).then(res=>{
+        resolve(res);
+      }).catch(error => {
+        reject(error);
+      })
+    })
+  }
 }

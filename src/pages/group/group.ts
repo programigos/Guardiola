@@ -31,7 +31,8 @@ export class GroupPage {
     this.group_data = {
       nombre: '',
       codigo: '',
-      creador_id: ''
+      creador_id: '',
+      nombre_creador: ''
     }
     if(localStorage.getItem('group_id') != 'undefined'){
       this.hasGroup = true;
@@ -111,14 +112,39 @@ export class GroupPage {
     }).catch((error)=>{
       console.log(error);
     })
+    this.groupCtrl.getCreatorGroup(this.group_data.creador_id).then((result)=>{
+      console.log(this.group_data);
+      console.log(this.group_data.creador_id);
+      console.log(result);
+      this.group_data.nombre_creador = result[0]["nombre"];
+    })
+  }
+
+  leaveGroup(){
+    let data = {   
+      usuario_id: this.user_data.id,
+      group_id: JSON.parse(localStorage.getItem('group_id'))
+    }
+    let is_creator: any;
+    if(this.group_data.creador_id == data.usuario_id){
+      is_creator = true;
+    }
+    else{
+      is_creator = false;
+    }
+    this.groupCtrl.dropUserGroup(data.usuario_id, data.group_id, is_creator).then((result)=>{
+      this.presentToast("Usted a Dejado el Grupo");
+      this.hasGroup = false;
+      console.log(result);
+    },(err)=>{
+      console.log(err);
+    }).catch((error)=>{
+      console.log(error);
+    })
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad GroupPage');
-  }
-
-  dismiss(){
-
   }
 
   presentToast(valor: string){

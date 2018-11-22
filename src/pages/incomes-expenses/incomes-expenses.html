@@ -49,10 +49,10 @@
               </ion-item>
             </ion-list>
             <div align="center">
-              <button ion-button type="submit">Guardar</button>
+              <button ion-button type="submit" [disabled]="!incomeForm.valid">Guardar</button>
             </div>
             <div align="center">
-                <button ion-button type="submit">Recordar y guardar</button>
+                <button ion-button type="submit" [disabled]="!incomeForm.valid">Recordar y guardar</button>
               </div>
           </form>
 
@@ -91,10 +91,10 @@
           </ion-item>
         </ion-list>
         <div align="center">
-          <button ion-button type="submit">Guardar</button>
+          <button ion-button type="submit" [disabled]="!incomeForm.valid">Guardar</button>
         </div>
         <div align="center">
-            <button ion-button type="submit">Recordar y guardar</button>
+            <button ion-button type="submit" [disabled]="!incomeForm.valid">Recordar y guardar</button>
           </div>
       </form>-
     </div>
