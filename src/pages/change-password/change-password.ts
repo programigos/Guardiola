@@ -26,7 +26,7 @@ export class ChangePasswordPage {
     this.passwordForm = this.createPasswordForm();
   }
 
-  matchingPasswords(passwordKey: string, confirmPasswordKey: string) {
+  matchingPasswords(passwordKey: string, confirmPasswordKey: string) {//Valida la contraseña
     return (group: FormGroup): {[key: string]: any} => {
       let password = group.controls[passwordKey];
       let confirmPassword = group.controls[confirmPasswordKey];
@@ -51,13 +51,13 @@ export class ChangePasswordPage {
     console.log('ionViewDidLoad ChangePasswordPage');
   }
 
-  doUpdate(){
-    let data = {
+  doUpdate(){//Actualizar contraseña
+    let data = {//Obtener datos del formulario
       current_password: this.passwordForm.value.current_password,
       new_password: this.passwordForm.value.new_password,
       repeat_password: this.passwordForm.value.repeat_password
     };
-    this.auth.getPassword(this.user_data.id).then((result)=>{
+    this.auth.getPassword(this.user_data.id).then((result)=>{//Solicitar actualización en la base de datos
       console.log(result);
       if(result == data.current_password){
         this.auth.editPassword(data.new_password, this.user_data.id).then((result)=>{

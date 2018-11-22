@@ -22,7 +22,7 @@ export class AccountPage {
   user_data: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private appCtrl: App) {
-    this.user_data = JSON.parse(localStorage.getItem('usuario_data'));
+    this.user_data = JSON.parse(localStorage.getItem('usuario_data'));//Mostrar los datos del usuario
   }
 
   ionViewDidLoad() {
@@ -34,14 +34,14 @@ export class AccountPage {
   }
 
   goEdit(){
-    this.navCtrl.push(EditPage);
+    this.navCtrl.push(EditPage);//Cargar pagina para modificar datos
   }
 
   goPassword(){
     this.navCtrl.push(ChangePasswordPage);
   }
 
-  dismiss(){
+  dismiss(){// Logout
     localStorage.setItem('logeado','false');
     localStorage.setItem('usuario_data','');
     localStorage.setItem('group_id','undefined');

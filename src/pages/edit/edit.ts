@@ -35,14 +35,14 @@ export class EditPage {
     })
   }
 
-  doUpdate(){
-    let data = {
+  doUpdate(){//Actualizar datos de la cuenta
+    let data = {//Obtener datos del formulario
       name: this.editForm.value.name,
       date: this.editForm.value.date,
       phone_number: this.editForm.value.phone,
       password: this.editForm.value.password
     };
-    this.auth.getPassword(this.user_data.id).then((result)=>{
+    this.auth.getPassword(this.user_data.id).then((result)=>{//Solicitar modificacion a la base de datos
       if(result == data.password){
         this.auth.editUser(data.name, data.date, data.phone_number, this.user_data.id).then((result)=>{
           console.log(result);
