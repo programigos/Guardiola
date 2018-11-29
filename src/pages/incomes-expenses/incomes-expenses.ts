@@ -21,10 +21,12 @@ export class IncomesExpensesPage {
   type:boolean;
   incomeForm:FormGroup;
   pet: string = "expend";
+  user_data;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,private formBuilder: FormBuilder, private saves: SavesProvider, private toastCtrl: ToastController) {
     this.type=false;
     this.incomeForm=this.createIncomeForm();
+    this.user_data = JSON.parse(localStorage.getItem('usuario_data'));
   }
 
   private createIncomeForm(){
@@ -42,11 +44,10 @@ export class IncomesExpensesPage {
   }
 
   addIncome(){
-    let user_data = JSON.parse(localStorage.getItem('usuario_data'));
     let in_eg = "Gasto";
-    console.log(user_data);
+    console.log(this.user_data);
     let data={
-      user_id:user_data.id,
+      user_id:this.user_data.id,
       concept:this.incomeForm.value.concept,
       description:this.incomeForm.value.description,
       date:this.incomeForm.value.date,
@@ -58,7 +59,18 @@ export class IncomesExpensesPage {
     if(this.type){
       data.concept= 8;
       in_eg = "Ingreso";
+      this.user_data["saldo"]+=Number(data.amount);
     }
+    else{
+      if(this.user_data["saldo"]-data.amount>=0){
+        this.user_data["saldo"]-=Number(data.amount);
+      }
+      else{
+        this.presentToast("No cuenta con saldo suficiente");
+        return;
+      }
+    }
+    localStorage.setItem('usuario_data',JSON.stringify(this.user_data));
     this.saves.addExpenseIncome(data.user_id, null, data.concept, data.description, data.amount, data.date, data.type).then((result) =>{
       this.presentToast(in_eg + " Añadido Correctamente");
       this.incomeForm.reset();
