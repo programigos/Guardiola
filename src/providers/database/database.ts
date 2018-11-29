@@ -205,6 +205,7 @@ export class DatabaseProvider {
   }
 
   getCreatorGroup(usuario_id: number){
+    console.log("ID Creador");
     console.log(usuario_id);
     return new Promise((resolve, reject) =>{
       let sql = "SELECT * FROM usuarios WHERE id_usuario = ?";
@@ -223,6 +224,32 @@ export class DatabaseProvider {
       },(err)=>{
         reject(err);
       }).catch((error)=>{
+        reject(error);
+      })
+    })
+  }
+
+  getListUsersGroup(group_id: number){
+    return new Promise((resolve, reject) =>{
+      let sql = "SELECT * FROM usuarios_grupos INNER JOIN usuarios ON usuarios.id_usuario = usuarios_grupos.usuario_id WHERE usuarios_grupos.grupo_id = ?";
+      this.db.executeSql(sql,[group_id]).then((data)=>{
+        console.log("Entre a la lista de usuarios");
+        let userArray = [];
+        for(var i = 0; i < data.rows.length; ++i){
+          userArray.push({
+            id: data.rows.item(i).id_usuario,
+            nombre: data.rows.item(i).nombre,
+            email: data.rows.item(i).email,
+            fecha: data.rows.item(i).fecha_nacimiento,
+            telefono: data.rows.item(i).telefono
+          })
+        }
+        resolve(userArray);
+      },(err)=>{
+        console.log(err);
+        reject(err);
+      }).catch((error)=>{
+        console.log(error);
         reject(error);
       })
     })

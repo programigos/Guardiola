@@ -65,4 +65,14 @@ export class GroupProvider {
       })
     })
   }
+
+  getListUsersGroup(group_id: number){
+    return new Promise((resolve, reject) =>{
+      this.database.getListUsersGroup(group_id).then(res=>{
+        resolve(res);
+      }).catch(error => {
+        reject(error);
+      })
+    })
+  }
 }

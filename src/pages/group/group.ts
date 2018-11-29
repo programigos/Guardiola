@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
+import { GroupDetailPage } from '../group-detail/group-detail';
 import { GroupProvider } from '../../providers/group/group'
 
 /**
@@ -69,11 +70,16 @@ export class GroupPage {
       codigo: this.joinGroupForm.value.code,
     }
     this.groupCtrl.addUserGroupCode(data.usuario_id, data.codigo).then((result)=>{
-      this.presentToast("Ingreso Correcto");
-      localStorage.setItem('group_id', JSON.stringify(result));
-      this.hasGroup = true;
-      this.getGroupInfo();
-      console.log(result);
+      if(result == "Grupo no Encontrado"){
+        this.presentToast("Grupo no Encontrado");
+      }
+      else{
+        this.presentToast("Ingreso Correcto");
+        localStorage.setItem('group_id', JSON.stringify(result));
+        this.hasGroup = true;
+        this.getGroupInfo();
+        console.log(result);
+      }
     },(err)=>{
       console.log(err);
     }).catch((error)=>{
@@ -105,18 +111,17 @@ export class GroupPage {
   getGroupInfo(){
     let group_id = JSON.parse(localStorage.getItem('group_id'));
     this.groupCtrl.getGroupInfo(group_id).then((result)=>{
-      this.group_data = result[0];
-      console.log(result);
+      this.group_data.nombre = result[0].nombre;
+      this.group_data.codigo = result[0].codigo;
+      this.group_data.creador_id = result[0].creador_id;
+      this.groupCtrl.getCreatorGroup(result[0].creador_id).then((res)=>{
+        console.log(res);
+        this.group_data.nombre_creador = res[0]["nombre"];
+      })
     },(err)=>{
       console.log(err);
     }).catch((error)=>{
       console.log(error);
-    })
-    this.groupCtrl.getCreatorGroup(this.group_data.creador_id).then((result)=>{
-      console.log(this.group_data);
-      console.log(this.group_data.creador_id);
-      console.log(result);
-      this.group_data.nombre_creador = result[0]["nombre"];
     })
   }
 
@@ -134,13 +139,24 @@ export class GroupPage {
     }
     this.groupCtrl.dropUserGroup(data.usuario_id, data.group_id, is_creator).then((result)=>{
       this.presentToast("Usted a Dejado el Grupo");
+      this.group_data = {
+        nombre: '',
+        codigo: '',
+        creador_id: '',
+        nombre_creador: ''
+      }
       this.hasGroup = false;
+      localStorage.setItem('group_id', "undefined");
       console.log(result);
     },(err)=>{
       console.log(err);
     }).catch((error)=>{
       console.log(error);
     })
+  }
+
+  goDetail(){
+    this.navCtrl.push(GroupDetailPage);
   }
 
   ionViewDidLoad() {

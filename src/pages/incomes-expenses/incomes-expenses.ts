@@ -59,18 +59,40 @@ export class IncomesExpensesPage {
       data.concept= 8;
       in_eg = "Ingreso";
     }
-    this.saves.addExpenseIncome(data.user_id, null, data.concept, data.description, data.amount, data.date, data.type).then((result) =>{
-      this.presentToast(in_eg + " Añadido Correctamente");
-      this.incomeForm.reset();
-      console.log(result);
-    },(err)=>{
-      this.presentToast(err);
-      console.log(err);
-    }).catch((error)=>{
-      this.presentToast(error);
-      console.log(error);
-    })
-    console.log(data);
+    if(data.personal == 1){
+      this.saves.addExpenseIncome(data.user_id, null, data.concept, data.description, data.amount, data.date, data.type).then((result) =>{
+        this.presentToast(in_eg + " Añadido Correctamente");
+        this.incomeForm.reset();
+        console.log(result);
+      },(err)=>{
+        this.presentToast(err);
+        console.log(err);
+      }).catch((error)=>{
+        this.presentToast(error);
+        console.log(error);
+      })
+      console.log(data);
+    }
+    else{
+      let group_id = localStorage.getItem("group_id");
+      if(group_id != "undefined"){
+        this.saves.addExpenseIncome(data.user_id, JSON.parse(group_id), data.concept, data.description, data.amount, data.date, data.type).then((result) =>{
+          this.presentToast(in_eg + " Añadido Correctamente");
+          this.incomeForm.reset();
+          console.log(result);
+        },(err)=>{
+          this.presentToast(err);
+          console.log(err);
+        }).catch((error)=>{
+          this.presentToast(error);
+          console.log(error);
+        })
+        console.log(data);
+      }
+      else{
+        this.presentToast("Usted No Se Encuentra En Ningun Grupo");
+      }
+    }
   }
 
   ionViewDidLoad() {

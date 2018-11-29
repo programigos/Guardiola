@@ -16,6 +16,7 @@ import { GroupPage } from '../pages/group/group';
 import { SavingPage } from '../pages/saving/saving';
 import { EditPage } from '../pages/edit/edit';
 import { ChangePasswordPage } from '../pages/change-password/change-password';
+import { GroupDetailPage } from '../pages/group-detail/group-detail';
 
 import { SQLite } from '@ionic-native/sqlite';
 import { AuthProvider } from '../providers/auth/auth';
@@ -35,7 +36,8 @@ import { GroupProvider } from '../providers/group/group';
     GroupPage,
     SavingPage,
     EditPage,
-    ChangePasswordPage
+    ChangePasswordPage,
+    GroupDetailPage
   ],
   imports: [
     HttpClientModule,
@@ -54,7 +56,8 @@ import { GroupProvider } from '../providers/group/group';
     GroupPage,
     SavingPage,
     EditPage,
-    ChangePasswordPage
+    ChangePasswordPage,
+    GroupDetailPage
   ],
   providers: [
     StatusBar,
