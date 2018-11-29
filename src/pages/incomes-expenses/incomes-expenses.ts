@@ -70,6 +70,7 @@ export class IncomesExpensesPage {
         return;
       }
     }
+    localStorage.setItem('usuario_data',JSON.stringify(this.user_data));
     if(data.personal == 1){
       this.saves.addExpenseIncome(data.user_id, null, data.concept, data.description, data.amount, data.date, data.type).then((result) =>{
         this.presentToast(in_eg + " Añadido Correctamente");

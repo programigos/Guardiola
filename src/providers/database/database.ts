@@ -143,6 +143,8 @@ export class DatabaseProvider {
       if(is_creator){
         let sql = "DELETE FROM usuarios_grupos WHERE grupo_id = ?";
         this.db.executeSql(sql,[group_id]).then((data)=>{
+          let sql2= "DELETE FROM grupos WHERE id_grupo = ?";
+          this.db.executeSql(sql2,[group_id]);
           resolve(data);
         },(err)=>{
           reject(err);

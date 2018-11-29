@@ -121,14 +121,6 @@ export class BalancePage {
     }).catch((error)=>{
       console.log(error);
     });
-    this.saves.getUserDayTotal(this.user_data.id,$event).then((result)=>{//Cargar resumen por categoría
-      console.log("Suma:");
-      console.log(result);
-    },(err)=>{
-      console.log(err);
-    }).catch((error)=>{
-      console.log(error);
-    });
   }
   changeMonth($event){//Cambiar el mes de la búsqueda por meses
     console.log($event);
