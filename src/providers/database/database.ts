@@ -333,7 +333,6 @@ export class DatabaseProvider {
       })
     })
   }
-
   getUserMonth(id,month){
     return new Promise((resolve, reject) =>{
       let base="";

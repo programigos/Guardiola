@@ -1,4 +1,7 @@
 <ion-header>
+  <ion-toolbar>
+    Saldo actual: {{user_data.saldo}}
+  </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
@@ -96,7 +99,7 @@
         <div align="center">
             <button ion-button type="submit" [disabled]="!incomeForm.valid">Recordar y guardar</button>
           </div>
-      </form>-
+      </form>
     </div>
     
   <div padding>

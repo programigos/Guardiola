@@ -22,8 +22,11 @@ export class BalancePage {
   dayForm:FormGroup;
   monthForm:FormGroup;
   yearForm:FormGroup;
+  sumas:number[];
+  user_data;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private saves: SavesProvider, private formBuilder: FormBuilder,private alertCtrl: AlertController) {
+    this.sumas=[0,0,0];
     this.dayForm=this.createDayForm();
     this.monthForm=this.createMonthForm();
     this.yearForm=this.createYearForm();
@@ -43,8 +46,10 @@ export class BalancePage {
       categorias:[]
     };
     this.information.push(year);
+    this.user_data = JSON.parse(localStorage.getItem('usuario_data'));
   }
   ionViewWillEnter(){//Volver a la pantalla luego de cambiar
+    this.sumas=[0,0,0];
     this.dayForm=this.createDayForm();
     this.monthForm=this.createMonthForm();
     this.yearForm=this.createYearForm();
@@ -64,6 +69,7 @@ export class BalancePage {
       categorias:[]
     };
     this.information.push(year);
+    this.user_data = JSON.parse(localStorage.getItem('usuario_data'));
   }
 
   private createDayForm(){
@@ -86,13 +92,17 @@ export class BalancePage {
 
   changeDay($event){//Cambiar el día de la búsqueda por días
     console.log($event);
-    let user_data = JSON.parse(localStorage.getItem('usuario_data'));
-    this.saves.getUserDay(user_data.id,$event).then((result)=>{//Cargar resumen por categoría
+    this.sumas[0]=0;
+    this.saves.getUserDay(this.user_data.id,$event).then((result)=>{//Cargar resumen por categoría
       let balance = JSON.parse(JSON.stringify(result));
       this.information[0].categorias=balance;
       for(var i=0;i<this.information[0].categorias.length;++i){
         let categoria=this.information[0].categorias[i];
-        this.saves.getUserDayCategory(user_data.id,$event,categoria.id).then((result)=>{//Cargar ingresos/egresos por categoría
+        if(categoria.id<8)
+          this.sumas[0]-=categoria.amount;
+        else
+          this.sumas[0]+=categoria.amount;
+        this.saves.getUserDayCategory(this.user_data.id,$event,categoria.id).then((result)=>{//Cargar ingresos/egresos por categoría
           let incomes = JSON.parse(JSON.stringify(result));
           categoria.incomes=incomes;
           console.log("Ingresos:");
@@ -111,17 +121,28 @@ export class BalancePage {
     }).catch((error)=>{
       console.log(error);
     });
+    this.saves.getUserDayTotal(this.user_data.id,$event).then((result)=>{//Cargar resumen por categoría
+      console.log("Suma:");
+      console.log(result);
+    },(err)=>{
+      console.log(err);
+    }).catch((error)=>{
+      console.log(error);
+    });
   }
-
   changeMonth($event){//Cambiar el mes de la búsqueda por meses
     console.log($event);
-    let user_data = JSON.parse(localStorage.getItem('usuario_data'));
-    this.saves.getUserMonth(user_data.id,$event).then((result)=>{//Cargar resumen por categoría
+    this.sumas[1]=0;
+    this.saves.getUserMonth(this.user_data.id,$event).then((result)=>{//Cargar resumen por categoría
       let balance = JSON.parse(JSON.stringify(result));
       this.information[1].categorias=balance;
       for(var i=0;i<this.information[1].categorias.length;++i){
         let categoria=this.information[1].categorias[i];
-        this.saves.getUserMonthCategory(user_data.id,$event,categoria.id).then((result)=>{//Cargar ingresos/egresos por categoría
+        if(categoria.id<8)
+          this.sumas[1]-=categoria.amount;
+        else
+          this.sumas[1]+=categoria.amount;
+        this.saves.getUserMonthCategory(this.user_data.id,$event,categoria.id).then((result)=>{//Cargar ingresos/egresos por categoría
           let incomes = JSON.parse(JSON.stringify(result));
           categoria.incomes=incomes;
           console.log("Ingresos:");
@@ -144,13 +165,17 @@ export class BalancePage {
 
   changeYear($event){//Cambiar el año de la búsqueda por año
     console.log($event);
-    let user_data = JSON.parse(localStorage.getItem('usuario_data'));
-    this.saves.getUserYear(user_data.id,$event).then((result)=>{//Cargar resumen por categoría
+    this.sumas[2]=0;
+    this.saves.getUserYear(this.user_data.id,$event).then((result)=>{//Cargar resumen por categoría
       let balance = JSON.parse(JSON.stringify(result));
       this.information[2].categorias=balance;
       for(var i=0;i<this.information[2].categorias.length;++i){
         let categoria=this.information[2].categorias[i];
-        this.saves.getUserYearCategory(user_data.id,$event,categoria.id).then((result)=>{//Cargar ingresos/egresos por categoría
+        if(categoria.id<8)
+          this.sumas[2]-=categoria.amount;
+        else
+          this.sumas[2]+=categoria.amount;
+        this.saves.getUserYearCategory(this.user_data.id,$event,categoria.id).then((result)=>{//Cargar ingresos/egresos por categoría
           let incomes = JSON.parse(JSON.stringify(result));
           categoria.incomes=incomes;
           console.log("Ingresos:");

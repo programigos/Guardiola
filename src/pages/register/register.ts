@@ -46,6 +46,7 @@ export class RegisterPage {
       phone:['',Validators.compose([Validators.required,Validators.pattern('[0-9]{9}')])],
       email: ['',Validators.compose([Validators.email,Validators.required])],
       date:['',Validators.required],
+      wallet:['',Validators.required],
       password: ['', Validators.compose([Validators.required, Validators.minLength(6), Validators.maxLength(16)])],
       confirmPassword: ['', Validators.compose([Validators.required, Validators.minLength(6), Validators.maxLength(16)])]
     }, {validator: this.matchingPasswords('password', 'confirmPassword')});
@@ -58,7 +59,7 @@ export class RegisterPage {
       date: this.registerForm.value.date,
       phone_number: this.registerForm.value.phone,
       password: this.registerForm.value.password,
-      wallet: 0
+      wallet: this.registerForm.value.wallet,
     };
     this.auth.registerUser(data.name, data.email, data.date, data.phone_number, data.password, data.wallet).then((result)=>{
       console.log(result);
