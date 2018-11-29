@@ -5,6 +5,9 @@
   Ionic pages and navigation.
 -->
 <ion-header>
+  <ion-toolbar>
+    Saldo actual: {{user_data.saldo}}
+  </ion-toolbar>
 </ion-header>
 
 
@@ -27,6 +30,9 @@
                   <ion-datetime [formControl]="dayForm.controls['date']" displayFormat="DD/MM/YYYY" placeholder="Fecha" (ngModelChange)="changeDay($event)"></ion-datetime>
                 </ion-item>
               </form>
+              <div *ngIf="sumas[i]!=0" [class]="sumas[i]>0? 'sumPositive' : 'sumNegative' ">
+                Suma: {{sumas[i]}}
+              </div>
             </div>
             <div *ngIf="i==1">
               <form [formGroup]="monthForm">
@@ -48,12 +54,18 @@
                   </ion-select>
                 </ion-item>
               </form>
+              <div *ngIf="sumas[i]!=0" [class]="sumas[i]>0? 'sumPositive' : 'sumNegative' ">
+                Suma: {{sumas[i]}}
+              </div>
             </div>
             <div *ngIf="i==2">
               <ion-item>
                 <ion-label>Fecha</ion-label>
                 <ion-datetime [formControl]="yearForm.controls['year']" displayFormat="YYYY" placeholder="Año" (ngModelChange)="changeYear($event)"></ion-datetime>
               </ion-item>
+              <div *ngIf="sumas[i]!=0" [class]="sumas[i]>0? 'sumPositive' : 'sumNegative' ">
+                Suma: {{sumas[i]}}
+              </div>
             </div>
             <ion-list no-lines>
                 <ion-list-header *ngFor="let categoria of item.categorias; let j = index" no-padding>
@@ -87,7 +99,6 @@
                     </ion-list>
                   </ion-item>
                 </ion-list-header>
-                
             </ion-list>
           </div>
         </ion-list-header>

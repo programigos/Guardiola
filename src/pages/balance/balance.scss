@@ -10,4 +10,22 @@ page-balance {
         border-color: white;
         text-align: center;
     }
+    .sumPositive{
+        background-color: white;
+        border-width: 6px;
+        border-color: black;
+        color: green;
+        padding: 15px;
+        align-content: center;
+        align-items: center; 
+    }
+    .sumNegative{
+        background-color: white;
+        border-width: 6px;
+        border-color: black;
+        color: red;
+        padding: 15px;
+        align-content: center;
+        align-items: center; 
+    }
 }
