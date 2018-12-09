@@ -298,6 +298,7 @@ export class DatabaseProvider {
       })
     })
   }
+
   getUserDay(id,date:string){
     return new Promise((resolve, reject) =>{
       let sql = "SELECT SUM(monto) Suma, id_categoria, nombre FROM gastos_ingresos INNER JOIN categorias ON categoria=id_categoria WHERE usuario_id= ? AND fecha= ? GROUP BY id_categoria, nombre ORDER BY id_categoria";
@@ -457,6 +458,165 @@ export class DatabaseProvider {
     })
   }
 
+  getGroupDay(id,date:string){
+    return new Promise((resolve, reject) =>{
+      let sql = "SELECT SUM(monto) Suma, id_categoria, nombre FROM gastos_ingresos INNER JOIN categorias ON categoria=id_categoria WHERE grupo_id= ? AND fecha= ? GROUP BY id_categoria, nombre ORDER BY id_categoria";
+      this.db.executeSql(sql,[id,date]).then((data)=>{
+        let saves=[];
+        for(var i = 0; i < data.rows.length; ++i){
+          saves.push({
+            id: data.rows.item(i).id_categoria,
+            category: data.rows.item(i).nombre,
+            amount:data.rows.item(i).Suma,
+            incomes:[]
+          })
+        }
+        resolve(saves);
+      },(err)=>{
+        reject(err);
+      })
+    })
+  }
+  getGroupDayCategory(user_id,date:string,category_id){
+    return new Promise((resolve, reject) =>{
+      let sql = "SELECT descripcion,monto, fecha FROM gastos_ingresos WHERE grupo_id=? AND fecha=? AND categoria=? ORDER BY id_concepto";
+      this.db.executeSql(sql,[user_id,date,category_id]).then((data)=>{
+        let saves=[];
+        for(var i = 0; i < data.rows.length; ++i){
+          saves.push({
+            description: data.rows.item(i).descripcion,
+            amount:data.rows.item(i).monto,
+            date:data.rows.item(i).fecha
+          })
+        }
+        resolve(saves);
+      },(err)=>{
+        reject(err);
+      })
+    })
+  }
+  getGroupMonth(id,month){
+    return new Promise((resolve, reject) =>{
+      let base="";
+      let top="";
+      if(Number(month)<12){
+        if(Number(month)<10){
+          base="2018-0"+month+"-01";
+          top="2018-0"+(Number(month)+1)+"-01";
+        }
+        else{
+          base="2018-"+month+"-01";
+          top="2018-"+(Number(month)+1)+"-01";
+        }
+      }
+      else{
+        base="2018-12-01";
+        top="2019-01-01";
+      }
+      console.log(base);
+      console.log(top);
+      let sql = "SELECT SUM(monto) Suma, id_categoria, nombre FROM gastos_ingresos INNER JOIN categorias ON categoria=id_categoria WHERE grupo_id= ? AND fecha>= ? AND fecha< ? GROUP BY id_categoria, nombre ORDER BY id_categoria";
+      this.db.executeSql(sql,[id,base,top]).then((data)=>{
+        let saves=[];
+        for(var i = 0; i < data.rows.length; ++i){
+          saves.push({
+            id: data.rows.item(i).id_categoria,
+            category: data.rows.item(i).nombre,
+            amount:data.rows.item(i).Suma,
+            incomes:[]
+          })
+        }
+        resolve(saves);
+      },(err)=>{
+        reject(err);
+      })
+    })
+  }
+  getGroupMonthCategory(user_id,month,category_id){
+    let base="";
+      let top="";
+      if(Number(month)<12){
+        if(Number(month)<10){
+          base="2018-0"+month+"-01";
+          top="2018-0"+(Number(month)+1)+"-01";
+        }
+        else{
+          base="2018-"+month+"-01";
+          top="2018-"+(Number(month)+1)+"-01";
+        }
+      }
+      else{
+        base="2018-12-01";
+        top="2019-01-01";
+      }
+    return new Promise((resolve, reject) =>{
+      let sql = "SELECT descripcion,monto, fecha FROM gastos_ingresos WHERE grupo_id=? AND fecha>= ? AND fecha< ? AND categoria=? ORDER BY id_concepto";
+      this.db.executeSql(sql,[user_id,base,top,category_id]).then((data)=>{
+        let saves=[];
+        for(var i = 0; i < data.rows.length; ++i){
+          saves.push({
+            description: data.rows.item(i).descripcion,
+            amount:data.rows.item(i).monto,
+            date:data.rows.item(i).fecha
+          })
+        }
+        console.log("Expenses and Incomes");
+        console.log(saves);
+        resolve(saves);
+      },(err)=>{
+        reject(err);
+      })
+    })
+  }
+
+  getGroupYear(id,year){
+    return new Promise((resolve, reject) =>{
+      let base=year+"-01-01";
+      let top=(Number(year)+1)+"-01-01";
+      let sql = "SELECT SUM(monto) Suma, id_categoria, nombre FROM gastos_ingresos INNER JOIN categorias ON categoria=id_categoria WHERE grupo_id= ? AND fecha>= ? AND fecha< ? GROUP BY id_categoria, nombre ORDER BY id_categoria";
+      this.db.executeSql(sql,[id,base,top]).then((data)=>{
+        let saves=[];
+        for(var i = 0; i < data.rows.length; ++i){
+          saves.push({
+            id: data.rows.item(i).id_categoria,
+            category: data.rows.item(i).nombre,
+            amount:data.rows.item(i).Suma,
+            incomes:[]
+          })
+        }
+        console.log("Expenses and Incomes");
+        console.log(saves);
+        resolve(saves);
+      },(err)=>{
+        reject(err);
+      })
+    })
+  }
+  getGroupYearCategory(user_id,year,category_id){
+    let base=year+"-01-01";
+      let top=(Number(year)+1)+"-01-01";
+    return new Promise((resolve, reject) =>{
+      let sql = "SELECT descripcion,monto, fecha FROM gastos_ingresos WHERE grupo_id=? AND fecha>= ? AND fecha< ? AND categoria=? ORDER BY id_concepto";
+      this.db.executeSql(sql,[user_id,base,top,category_id]).then((data)=>{
+        let saves=[];
+        for(var i = 0; i < data.rows.length; ++i){
+          saves.push({
+            description: data.rows.item(i).descripcion,
+            amount:data.rows.item(i).monto,
+            date:data.rows.item(i).fecha
+          })
+        }
+        console.log("Expenses and Incomes");
+        console.log(saves);
+        resolve(saves);
+      },(err)=>{
+        reject(err);
+      }).catch((error)=>{
+        reject(error);
+      })
+    })
+  }
+
   editUser(nombre:string, fecha_nacimiento:string, telefono:number, id){
     return new Promise((resolve, reject)=>{
       let sql = "UPDATE usuarios SET nombre = ?, fecha_nacimiento = ?, telefono = ? WHERE id_usuario = ?";
@@ -495,5 +655,6 @@ export class DatabaseProvider {
       })
     })
   }
+
 
 }

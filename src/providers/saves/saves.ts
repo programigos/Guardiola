@@ -88,4 +88,59 @@ export class SavesProvider {
       })
     })
   }
+
+  getGroupDay(id,date:string){
+    return new Promise((resolve, reject)=>{
+      this.database.getGroupDay(id,date).then(res=>{
+        resolve(res);
+      }).catch(error => {
+        reject(error);
+      })
+    })
+  }
+  getGroupDayCategory(id,date:string,category_id){
+    return new Promise((resolve, reject)=>{
+      this.database.getGroupDayCategory(id,date,category_id).then(res=>{
+        resolve(res);
+      }).catch(error => {
+        reject(error);
+      })
+    })
+  }
+  getGroupMonth(id,month){
+    return new Promise((resolve, reject)=>{
+      this.database.getGroupMonth(id,month).then(res=>{
+        resolve(res);
+      }).catch(error => {
+        reject(error);
+      })
+    })
+  }
+  getGroupMonthCategory(id,month,category_id){
+    return new Promise((resolve, reject)=>{
+      this.database.getGroupMonthCategory(id,month,category_id).then(res=>{
+        resolve(res);
+      }).catch(error => {
+        reject(error);
+      })
+    })
+  }
+  getGroupYear(id,year){
+    return new Promise((resolve, reject)=>{
+      this.database.getGroupYear(id,year).then(res=>{
+        resolve(res);
+      }).catch(error => {
+        reject(error);
+      })
+    })
+  }
+  getGroupYearCategory(id,year,category_id){
+    return new Promise((resolve, reject)=>{
+      this.database.getGroupYearCategory(id,year,category_id).then(res=>{
+        resolve(res);
+      }).catch(error => {
+        reject(error);
+      })
+    })
+  }
 }

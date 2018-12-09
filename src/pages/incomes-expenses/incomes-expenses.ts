@@ -89,7 +89,7 @@ export class IncomesExpensesPage {
       let group_id = localStorage.getItem("group_id");
       if(group_id != "undefined"){
         this.saves.addExpenseIncome(data.user_id, JSON.parse(group_id), data.concept, data.description, data.amount, data.date, data.type).then((result) =>{
-          this.presentToast(in_eg + " Añadido Correctamente");
+          this.presentToast(in_eg + " Grupal Añadido Correctamente");
           this.incomeForm.reset();
           console.log(result);
         },(err)=>{

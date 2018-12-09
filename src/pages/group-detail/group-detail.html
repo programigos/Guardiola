@@ -14,11 +14,8 @@
         <ion-segment-button value="members">
           Miembros
         </ion-segment-button>
-        <ion-segment-button value="expense">
-          Egresos
-        </ion-segment-button>
-        <ion-segment-button value="income">
-          Ingresos
+        <ion-segment-button value="movements">
+          Movimientos
         </ion-segment-button>
       </ion-segment>
     </div>
@@ -31,16 +28,90 @@
         </ion-item>
       </ion-list>
 
-      <ion-list *ngSwitchCase = "'expense'">
-        <ion-item>
-            Lista de Gastos
-        </ion-item>
-      </ion-list>
-
-      <ion-list *ngSwitchCase = "'income'">
-        <ion-item>
-            Lista de Ingresos
-        </ion-item>
+      <ion-list *ngSwitchCase = "'movements'">
+        <div>
+          <ion-list class="accordion-list">
+              <!-- First Level -->
+              <ion-list-header class="list-head" *ngFor="let item of information; let i = index" no-lines no-padding>
+                <!-- Toggle Button -->
+                <button class="text-1" ion-item (click)="toggleSection(i)" detail-none [ngClass]="{'section-active': item.open, 'section': !item.open}" outline>
+                  {{ item.name }}
+                  <ion-icon item-right name="arrow-dropright" *ngIf="!item.open"></ion-icon>
+                  <ion-icon item-right name="arrow-dropdown" *ngIf="item.open"></ion-icon>
+                </button>
+                <div *ngIf="item.open" no-lines>
+                  <div *ngIf="i==0">
+                    <form [formGroup]="dayForm"> 
+                      <ion-item>
+                        <ion-label>Fecha</ion-label>
+                        <ion-datetime [formControl]="dayForm.controls['date']" displayFormat="DD/MM/YYYY" placeholder="Fecha" (ngModelChange)="changeDay($event)"></ion-datetime>
+                      </ion-item>
+                    </form>
+                  </div>
+                  <div *ngIf="i==1">
+                    <form [formGroup]="monthForm">
+                      <ion-item>
+                        <ion-label>Mes</ion-label>
+                        <ion-select [formControl]="monthForm.controls['month']" interface="action-sheet" placeholder="Mes" (ngModelChange)="changeMonth($event)" stacked>
+                          <ion-option value=1>Enero</ion-option>
+                          <ion-option value=2>Febrero</ion-option>
+                          <ion-option value=3>Marzo</ion-option>
+                          <ion-option value=4>Abril</ion-option>
+                          <ion-option value=5>Mayo</ion-option>
+                          <ion-option value=6>Junio</ion-option>
+                          <ion-option value=7>Julio</ion-option>
+                          <ion-option value=8>Agosto</ion-option>
+                          <ion-option value=9>Setiembre</ion-option>
+                          <ion-option value=10>Octubre</ion-option>
+                          <ion-option value=11>Noviembre</ion-option>
+                          <ion-option value=12>Diciembre</ion-option>
+                        </ion-select>
+                      </ion-item>
+                    </form>
+                  </div>
+                  <div *ngIf="i==2">
+                    <ion-item>
+                      <ion-label>Fecha</ion-label>
+                      <ion-datetime [formControl]="yearForm.controls['year']" displayFormat="YYYY" placeholder="Año" (ngModelChange)="changeYear($event)"></ion-datetime>
+                    </ion-item>
+                  </div>
+                  <ion-list no-lines>
+                      <ion-list-header *ngFor="let categoria of item.categorias; let j = index" no-padding>
+                        <!-- Toggle Button -->
+                        <button ion-item (click)="toggleItem(i, j)" class="child" detail-none>
+                          <ion-icon item-right name="arrow-dropdown-circle" *ngIf="!categoria.open"></ion-icon>
+                          <ion-icon item-right name="arrow-dropright-circle" *ngIf="categoria.open"></ion-icon>
+                          <ion-row>
+                            <ion-col col-7>
+                              {{ categoria.category }}
+                            </ion-col>
+                            <ion-col col-5>
+                              S/.{{ categoria.amount.toFixed(2)}}
+                            </ion-col>
+                          </ion-row>
+                        </button>
+                
+                        <!-- Direct Add Button as Fallback -->
+                        <ion-item *ngIf="categoria.open" ion-item detail-none class="child-item" text-wrap>
+                          <ion-list>
+                            <ion-item *ngFor="let income of categoria.incomes">
+                              <ion-row>
+                                <ion-col col-7>
+                                  {{income.description}}:{{income.date}}
+                                </ion-col>
+                                <ion-col col-5>
+                                  S/.{{income.amount.toFixed(2)}}
+                                </ion-col>
+                              </ion-row>
+                            </ion-item>
+                          </ion-list>
+                        </ion-item>
+                      </ion-list-header>
+                  </ion-list>
+                </div>
+              </ion-list-header>
+            </ion-list>
+        </div>
       </ion-list>
 
     </div>
