@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angu
 import { SavingProvider } from '../../providers/saving/saving';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
-
+import { PlanDetailsPage } from '../plan-details/plan-details';
 
 /**
  * Generated class for the SavingPage page.
@@ -43,7 +43,7 @@ export class SavingPage {
   }
 
   goPlanDetails(){
-
+    this.navCtrl.push(PlanDetailsPage);
   }
 
   presentToast(valor: string){

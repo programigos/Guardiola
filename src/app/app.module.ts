@@ -17,6 +17,7 @@ import { SavingPage } from '../pages/saving/saving';
 import { EditPage } from '../pages/edit/edit';
 import { ChangePasswordPage } from '../pages/change-password/change-password';
 import { GroupDetailPage } from '../pages/group-detail/group-detail';
+import { PlanDetailsPage } from '../pages/plan-details/plan-details';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 
 import { SQLite } from '@ionic-native/sqlite';
@@ -39,7 +40,8 @@ import { SavingProvider } from '../providers/saving/saving';
     SavingPage,
     EditPage,
     ChangePasswordPage,
-    GroupDetailPage
+    GroupDetailPage,
+    PlanDetailsPage
   ],
   imports: [
     HttpClientModule,
@@ -59,7 +61,8 @@ import { SavingProvider } from '../providers/saving/saving';
     SavingPage,
     EditPage,
     ChangePasswordPage,
-    GroupDetailPage
+    GroupDetailPage,
+    PlanDetailsPage
   ],
   providers: [
     StatusBar,
