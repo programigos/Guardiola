@@ -24,6 +24,7 @@ import { AuthProvider } from '../providers/auth/auth';
 import { DatabaseProvider } from '../providers/database/database';
 import { SavesProvider } from '../providers/saves/saves';
 import { GroupProvider } from '../providers/group/group';
+import { SavingProvider } from '../providers/saving/saving';
 
 @NgModule({
   declarations: [
@@ -69,7 +70,8 @@ import { GroupProvider } from '../providers/group/group';
     DatabaseProvider,
     SavesProvider,
     GroupProvider,
-    LocalNotifications
+    LocalNotifications,
+    SavingProvider
   ]
 })
 export class AppModule {}
