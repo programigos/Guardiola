@@ -29,8 +29,7 @@ export class DatabaseProvider {
         db.executeSql("CREATE TABLE IF NOT EXISTS usuarios_grupos (usuario_grupo_id INTEGER PRIMARY KEY AUTOINCREMENT, usuario_id INTEGER, grupo_id INTEGER, FOREIGN KEY (usuario_id) REFERENCES usuarios (id_usuario), FOREIGN KEY(grupo_id) REFERENCES grupos (id_grupo))",[]);
         db.executeSql("CREATE TABLE IF NOT EXISTS categorias (id_categoria INTEGER PRIMARY KEY, nombre VARCHAR)",[]);
         db.executeSql("CREATE TABLE IF NOT EXISTS gastos_ingresos (id_concepto INTEGER PRIMARY KEY AUTOINCREMENT, usuario_id INTEGER, grupo_id INTEGER, categoria INTEGER, descripcion TEXT, monto NUMERIC, fecha DATE, gasto_ingreso BOOLEAN, FOREIGN KEY (usuario_id) REFERENCES usuarios (id_usuario), FOREIGN KEY (grupo_id) REFERENCES grupos (id_grupo), FOREIGN KEY (categoria) REFERENCES categorias (id_categoria))",[]);
-        db.executeSql("CREATE TABLE IF NOT EXISTS ahorros (id_ahorro INTEGER PRIMARY KEY AUTOINCREMENT, usuario_id INTEGER, monto_objetivo NUMERIC, avance NUMERIC, FOREIGN KEY (usuario_id) REFERENCES usuarios (id_usuario))",[]);
-        db.executeSql("CREATE TABLE IF NOT EXISTS recuerdos (id_recuerdo INTEGER PRIMARY KEY AUTOINCREMENT, usuario_id INTEGER, grupo_id INTEGER, categoria INTEGER, periodicidad TIMESTAMP, descripcion TEXT, monto NUMERIC, FOREIGN KEY (usuario_id) REFERENCES usuarios (id_usuario), FOREIGN KEY (grupo_id) REFERENCES grupos (id_grupo), FOREIGN KEY (categoria) REFERENCES categorias (id_categoria))",[]);
+        db.executeSql("CREATE TABLE IF NOT EXISTS ahorros (id_ahorro INTEGER PRIMARY KEY AUTOINCREMENT, usuario_id INTEGER, monto_objetivo NUMERIC, avance NUMERIC, fecha_plan DATE, FOREIGN KEY (usuario_id) REFERENCES usuarios (id_usuario))",[]);
         db.executeSql("INSERT INTO categorias (nombre) VALUES ('Comida')",[]);
         db.executeSql("INSERT INTO categorias (nombre) VALUES ('Servicios y hogar')",[]);
         db.executeSql("INSERT INTO categorias (nombre) VALUES ('Entretenimiento')",[]);
@@ -656,10 +655,10 @@ export class DatabaseProvider {
     })
   }
 
-  addSavingPlans(usuario_id, monto_objetivo, avance){
+  addSavingPlans(usuario_id, monto_objetivo, avance,fecha){
     return new Promise((resolve, reject) =>{
-      let sql = "INSERT INTO ahorros(usuario_id, monto_objetivo, avance) VALUES (?,?,?)";
-      this.db.executeSql(sql,[usuario_id, monto_objetivo, avance]).then((data)=>{
+      let sql = "INSERT INTO ahorros(usuario_id, monto_objetivo, avance, fecha_plan) VALUES (?,?,?,?)";
+      this.db.executeSql(sql,[usuario_id, monto_objetivo, avance, fecha]).then((data)=>{
         resolve(data);
       },(err)=>{
         reject(err);
@@ -674,7 +673,14 @@ export class DatabaseProvider {
       let sql = "SELECT * FROM ahorros WHERE usuario_id = ?";
       this.db.executeSql(sql,[id]).then((data)=>{
         let savingPlans=[];
-        resolve(data.rows.item(0).password);
+        for(var i = 0; i < data.rows.length; ++i){
+          savingPlans.push({
+            objetivo: data.rows.item(i).monto_objetivo,
+            avance:data.rows.item(i).avance,
+            fecha:data.rows.item(i).fecha_plan
+          })
+        }
+        resolve(savingPlans);
       },(err)=>{
         reject(err);
       }).catch((error)=>{
