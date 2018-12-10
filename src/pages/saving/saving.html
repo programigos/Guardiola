@@ -8,4 +8,76 @@
 
 <ion-content padding>
  
+  <div class="guardiola-title">Tu Objetivo Es...</div>
+  <div>
+    <ion-grid style="height: 100%">
+      <ion-row justify-content-center align-items-center style="height: 100%">
+        <div class="guardiola-text">
+            0.0
+        </div>
+      </ion-row>
+    </ion-grid>
+  </div>
+  <div>
+    <ion-list radio-group [(ngModel)]="personal">
+      <ion-item>
+        <ion-label>Personal</ion-label>
+        <ion-radio value="personal" checked></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-label>Grupal</ion-label>
+        <ion-radio value="grupal"></ion-radio>
+      </ion-item>
+    </ion-list>
+  </div>
+  <div>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <div>
+            ------
+          </div>
+        </ion-col>
+        <ion-col>
+          <b>Objetivo</b>
+        </ion-col>
+        <ion-col>
+          <b>Ahorrado</b>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          Diario
+        </ion-col>
+        <ion-col>
+          x.x
+        </ion-col>
+        <ion-col>
+          x.x
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          Semanal
+        </ion-col>
+        <ion-col>
+          x.x
+        </ion-col>
+        <ion-col>
+          x.x
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          Mensual
+        </ion-col>
+        <ion-col>
+          x.x
+        </ion-col>
+        <ion-col>
+          x.x
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
 </ion-content>

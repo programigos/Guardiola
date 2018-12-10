@@ -656,6 +656,19 @@ export class DatabaseProvider {
     })
   }
 
+  addSavingPlans(usuario_id, monto_objetivo, avance){
+    return new Promise((resolve, reject) =>{
+      let sql = "INSERT INTO ahorros(usuario_id, monto_objetivo, avance) VALUES (?,?,?)";
+      this.db.executeSql(sql,[usuario_id, monto_objetivo, avance]).then((data)=>{
+        resolve(data);
+      },(err)=>{
+        reject(err);
+      }).catch((error)=>{
+        reject(error);
+      })
+    })
+  }
+
   getSavingPlans(id){
     return new Promise((resolve, reject) =>{
       let sql = "SELECT * FROM ahorros WHERE usuario_id = ?";
@@ -669,6 +682,5 @@ export class DatabaseProvider {
       })
     })
   }
-
 
 }

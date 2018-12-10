@@ -46,7 +46,7 @@ export class RegisterPage {
       phone:['',Validators.compose([Validators.required,Validators.pattern('[0-9]{9}')])],
       email: ['',Validators.compose([Validators.email,Validators.required])],
       date:['',Validators.required],
-      wallet:['',Validators.required],
+      wallet:['',Validators.compose([Validators.required,Validators.pattern('[0-9]')])],
       password: ['', Validators.compose([Validators.required, Validators.minLength(6), Validators.maxLength(16)])],
       confirmPassword: ['', Validators.compose([Validators.required, Validators.minLength(6), Validators.maxLength(16)])]
     }, {validator: this.matchingPasswords('password', 'confirmPassword')});
