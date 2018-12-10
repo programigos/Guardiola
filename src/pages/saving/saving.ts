@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { SavingProvider } from '../../providers/saving/saving';
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+
+
 
 /**
  * Generated class for the SavingPage page.
@@ -17,14 +20,44 @@ import { SavingProvider } from '../../providers/saving/saving';
 export class SavingPage {
 
   user_data;
+  planForm : FormGroup;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private saves: SavingProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private toastCtrl: ToastController, private saves:SavingProvider) {
     this.user_data = JSON.parse(localStorage.getItem('usuario_data'));
-    console.log(this.user_data);
+    this.planForm = this.createPlanForm();
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SavingPage');
+  }
+
+  private createPlanForm(){
+    return this.formBuilder.group({
+      amount:['',Validators.required],
+      date:['',Validators.required],
+    });
+  }
+
+  createPlan(){
+    this.presentToast("Plan de Ahorros Creado");
+  }
+
+  goPlanDetails(){
+
+  }
+
+  presentToast(valor: string){
+    let toast = this.toastCtrl.create({
+      message: valor,
+      duration: 3000,
+      position: 'bottom'
+    });
+  
+    toast.onDidDismiss(() => {
+      console.log('Dismissed toast');
+    });
+  
+    toast.present();
   }
 
 }

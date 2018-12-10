@@ -1,7 +1,6 @@
 import { Component, NgModule } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { LocalNotifications, ILocalNotification } from '@ionic-native/local-notifications';
 
 import { SavesProvider } from '../../providers/saves/saves'
 
