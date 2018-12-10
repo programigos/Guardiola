@@ -25,4 +25,13 @@ export class SavingProvider {
     })
   }
 
+  addSavingPLan(usuario_id, monto_objetivo,fecha){
+    return new Promise((resolve, reject)=>{
+      this.database.addSavingPlans(usuario_id, monto_objetivo,fecha).then(res=>{
+        resolve(res);
+      }).catch(error => {
+        reject(error);
+      })
+    })
+  }
 }

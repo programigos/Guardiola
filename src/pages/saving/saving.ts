@@ -39,7 +39,23 @@ export class SavingPage {
   }
 
   createPlan(){
-    this.presentToast("Plan de Ahorros Creado");
+    let data={
+      id:this.user_data["id"],
+      total:this.planForm.value.amount,
+      date:this.planForm.value.date
+    }
+    console.log(data);
+    this.saves.addSavingPLan(data.id,data.total,data.date).then((result) =>{
+      this.presentToast("Plan de Ahorros Creado");
+      this.planForm.reset();
+    },(err)=>{
+      this.presentToast(err);
+      console.log(err);
+    }).catch((error)=>{
+      this.presentToast(error);
+      console.log(error);
+    })
+    
   }
 
   goPlanDetails(){

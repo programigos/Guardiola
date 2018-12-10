@@ -655,10 +655,10 @@ export class DatabaseProvider {
     })
   }
 
-  addSavingPlans(usuario_id, monto_objetivo, avance,fecha){
+  addSavingPlans(usuario_id, monto_objetivo,fecha){
     return new Promise((resolve, reject) =>{
-      let sql = "INSERT INTO ahorros(usuario_id, monto_objetivo, avance, fecha_plan) VALUES (?,?,?,?)";
-      this.db.executeSql(sql,[usuario_id, monto_objetivo, avance, fecha]).then((data)=>{
+      let sql = "INSERT INTO ahorros(usuario_id, monto_objetivo,avance, fecha_plan) VALUES (?,?,0,?)";
+      this.db.executeSql(sql,[usuario_id, monto_objetivo, fecha]).then((data)=>{
         resolve(data);
       },(err)=>{
         reject(err);
@@ -675,6 +675,7 @@ export class DatabaseProvider {
         let savingPlans=[];
         for(var i = 0; i < data.rows.length; ++i){
           savingPlans.push({
+            id:data.rows.item(i).id_ahorro,
             objetivo: data.rows.item(i).monto_objetivo,
             avance:data.rows.item(i).avance,
             fecha:data.rows.item(i).fecha_plan
@@ -689,4 +690,16 @@ export class DatabaseProvider {
     })
   }
 
+  updatePlan(id,objetivo,avance,fecha){
+    return new Promise((resolve, reject) =>{
+      let sql = "UPDATE ahorros SET monto_objetivo = ?, avance = ?, fecha_plan = ? where id_ahorro = ?";
+      this.db.executeSql(sql,[objetivo,avance,fecha,id]).then((data)=>{
+        resolve(data);
+      },(err)=>{
+        reject(err);
+      }).catch((error)=>{
+        reject(error);
+      })
+    })
+  }
 }
