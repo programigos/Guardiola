@@ -1,3 +1,31 @@
 page-group-detail {
-
+    .list-head{
+        background-color: #000066;
+    }
+    .text-1{
+        font-size: 16px;
+        background-color: transparent;
+        color:#0099ff;
+        border-width: 1px;
+        border-color: white;
+        text-align: center;
+    }
+    .sumPositive{
+        background-color: white;
+        border-width: 6px;
+        border-color: black;
+        color: green;
+        padding: 15px;
+        align-content: center;
+        align-items: center; 
+    }
+    .sumNegative{
+        background-color: white;
+        border-width: 6px;
+        border-color: black;
+        color: red;
+        padding: 15px;
+        align-content: center;
+        align-items: center; 
+    }
 }
