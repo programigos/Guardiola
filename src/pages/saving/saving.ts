@@ -15,7 +15,10 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class SavingPage {
 
+  user_data;
+
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+    this.user_data = JSON.parse(localStorage.getItem('usuario_data'));
   }
 
   ionViewDidLoad() {

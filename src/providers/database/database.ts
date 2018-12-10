@@ -29,7 +29,7 @@ export class DatabaseProvider {
         db.executeSql("CREATE TABLE IF NOT EXISTS usuarios_grupos (usuario_grupo_id INTEGER PRIMARY KEY AUTOINCREMENT, usuario_id INTEGER, grupo_id INTEGER, FOREIGN KEY (usuario_id) REFERENCES usuarios (id_usuario), FOREIGN KEY(grupo_id) REFERENCES grupos (id_grupo))",[]);
         db.executeSql("CREATE TABLE IF NOT EXISTS categorias (id_categoria INTEGER PRIMARY KEY, nombre VARCHAR)",[]);
         db.executeSql("CREATE TABLE IF NOT EXISTS gastos_ingresos (id_concepto INTEGER PRIMARY KEY AUTOINCREMENT, usuario_id INTEGER, grupo_id INTEGER, categoria INTEGER, descripcion TEXT, monto NUMERIC, fecha DATE, gasto_ingreso BOOLEAN, FOREIGN KEY (usuario_id) REFERENCES usuarios (id_usuario), FOREIGN KEY (grupo_id) REFERENCES grupos (id_grupo), FOREIGN KEY (categoria) REFERENCES categorias (id_categoria))",[]);
-        db.executeSql("CREATE TABLE IF NOT EXISTS ahorros (id_ahorro INTEGER PRIMARY KEY AUTOINCREMENT, usuario_id INTEGER, grupo_id INTEGER, monto_objetivo NUMERIC, personal_grupal BOOLEAN, FOREIGN KEY (usuario_id) REFERENCES usuarios (id_usuario), FOREIGN KEY (grupo_id) REFERENCES grupos (id_grupo))",[]);
+        db.executeSql("CREATE TABLE IF NOT EXISTS ahorros (id_ahorro INTEGER PRIMARY KEY AUTOINCREMENT, usuario_id INTEGER, monto_objetivo NUMERIC, avance NUMERIC, FOREIGN KEY (usuario_id) REFERENCES usuarios (id_usuario))",[]);
         db.executeSql("CREATE TABLE IF NOT EXISTS recuerdos (id_recuerdo INTEGER PRIMARY KEY AUTOINCREMENT, usuario_id INTEGER, grupo_id INTEGER, categoria INTEGER, periodicidad TIMESTAMP, descripcion TEXT, monto NUMERIC, FOREIGN KEY (usuario_id) REFERENCES usuarios (id_usuario), FOREIGN KEY (grupo_id) REFERENCES grupos (id_grupo), FOREIGN KEY (categoria) REFERENCES categorias (id_categoria))",[]);
         db.executeSql("INSERT INTO categorias (nombre) VALUES ('Comida')",[]);
         db.executeSql("INSERT INTO categorias (nombre) VALUES ('Servicios y hogar')",[]);
@@ -647,6 +647,20 @@ export class DatabaseProvider {
     return new Promise((resolve, reject) =>{
       let sql = "SELECT * FROM usuarios WHERE id_usuario = ?";
       this.db.executeSql(sql,[id]).then((data)=>{
+        resolve(data.rows.item(0).password);
+      },(err)=>{
+        reject(err);
+      }).catch((error)=>{
+        reject(error);
+      })
+    })
+  }
+
+  getSavingPlans(id){
+    return new Promise((resolve, reject) =>{
+      let sql = "SELECT * FROM ahorros WHERE usuario_id = ?";
+      this.db.executeSql(sql,[id]).then((data)=>{
+        let savingPlans=[];
         resolve(data.rows.item(0).password);
       },(err)=>{
         reject(err);
