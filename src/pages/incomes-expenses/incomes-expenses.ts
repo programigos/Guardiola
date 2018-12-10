@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { LocalNotifications, ILocalNotification } from '@ionic-native/local-notifications';
 
 import { SavesProvider } from '../../providers/saves/saves'
 
@@ -22,11 +23,48 @@ export class IncomesExpensesPage {
   incomeForm:FormGroup;
   pet: string = "expend";
   user_data;
+  months:string[];
+  notifId:number=0;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,private formBuilder: FormBuilder, private saves: SavesProvider, private toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,private formBuilder: FormBuilder, private saves: SavesProvider, private toastCtrl: ToastController, private localNotifications: LocalNotifications) {
+    this.months=["January","February","March","April","May","June","July","August","September","October","November","December"];
     this.type=false;
     this.incomeForm=this.createIncomeForm();
     this.user_data = JSON.parse(localStorage.getItem('usuario_data'));
+    let date = this.generateDate(2018,12,9);
+    let a:ILocalNotification={
+      id: 1,
+      text: 'Esto funciona prro',
+      sound:'file://sound.mp3'
+    };
+    let b:ILocalNotification={
+      id: 2,
+      trigger: {at: date},
+      text: 'Esto funciona prro x2',
+      sound:'file://sound.mp3'
+    };
+    this.setNotification([2018,12,10],"Recordatorio","Egreso: Pension S/. 600");
+    this.setNotification([2018,12,10],"Recordatorio","Esto funciona x2");
+    this.setNotification([2018,12,10],"Recordatorio","Esto funciona x3");
+  }
+
+  generateDate(year,month,day){
+    let date:string=this.months[month-1]+" "+day+", "+year;
+    return new Date(date);
+  }
+
+  setNotification(dateNumbers,title,message){
+    let date=this.generateDate(dateNumbers[0],dateNumbers[1],dateNumbers[2]);
+    console.log(this.notifId);
+    let notification={
+      id:++this.notifId,
+      title:title,
+      text:message,
+      trigger:{at:date},
+      vibrate:true,
+      launch:true
+    }
+    this.localNotifications.schedule(notification);
   }
 
   private createIncomeForm(){
