@@ -7,77 +7,25 @@
 
 
 <ion-content padding>
- 
-  <div class="guardiola-title">Tu Objetivo Es...</div>
-  <div>
     <ion-grid style="height: 100%">
-      <ion-row justify-content-center align-items-center style="height: 100%">
-        <div class="guardiola-text">
-            0.0
-        </div>
-      </ion-row>
-    </ion-grid>
-  </div>
-  <div>
-    <ion-list radio-group [(ngModel)]="personal">
-      <ion-item>
-        <ion-label>Personal</ion-label>
-        <ion-radio value="personal" checked></ion-radio>
-      </ion-item>
-      <ion-item>
-        <ion-label>Grupal</ion-label>
-        <ion-radio value="grupal"></ion-radio>
-      </ion-item>
-    </ion-list>
-  </div>
-  <div>
-    <ion-grid>
-      <ion-row>
-        <ion-col>
+        <ion-row justify-content-center align-items-center style="height: 100%">
           <div>
-            ------
+              <div style="text-align:center" class="guardiola-title">
+                  <b> Plan de Ahorros </b>
+              </div>
+              <form [formGroup]="planForm" (ngSubmit) = "createPlan()">
+                <ion-item>
+                  <ion-input type="number" [formControl]="planForm.controls['amount']" placeholder="Monto Objetivo"></ion-input>
+                </ion-item>
+                <ion-item> 
+                  <ion-datetime displayFormat="DD/MM/YYYY" max="2100" placeholder="Fecha" [formControl]="planForm.controls['date']"></ion-datetime>
+                </ion-item>     
+                <div align="center">
+                  <button ion-button type="submit" [disabled]="!planForm.valid">Crear</button>
+                  <button ion-button type="button" (click)="goPlanDetails()">Ver Planes de Ahorros</button>
+                </div>
+              </form>
           </div>
-        </ion-col>
-        <ion-col>
-          <b>Objetivo</b>
-        </ion-col>
-        <ion-col>
-          <b>Ahorrado</b>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col>
-          Diario
-        </ion-col>
-        <ion-col>
-          x.x
-        </ion-col>
-        <ion-col>
-          x.x
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col>
-          Semanal
-        </ion-col>
-        <ion-col>
-          x.x
-        </ion-col>
-        <ion-col>
-          x.x
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col>
-          Mensual
-        </ion-col>
-        <ion-col>
-          x.x
-        </ion-col>
-        <ion-col>
-          x.x
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </div>
+        </ion-row>
+      </ion-grid>
 </ion-content>
