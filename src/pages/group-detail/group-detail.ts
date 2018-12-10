@@ -106,7 +106,7 @@ export class GroupDetailPage {
       this.information[0].categorias=balance;
       for(var i=0;i<this.information[0].categorias.length;++i){
         let categoria=this.information[0].categorias[i];
-        this.saves.getGroupDayCategory(this.group_id.id,$event,categoria.id).then((result)=>{//Cargar ingresos/egresos por categoría
+        this.saves.getGroupDayCategory(this.group_id,$event,categoria.id).then((result)=>{//Cargar ingresos/egresos por categoría
           let incomes = JSON.parse(JSON.stringify(result));
           categoria.incomes=incomes;
           console.log("Ingresos:");
